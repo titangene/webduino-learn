@@ -3,7 +3,7 @@
 
 [Webduino 官方教學範例 - LED 燈](https://webduino.io/tutorials/tutorial-01-led.html)
 
-## [燈泡亮 & LED 燈亮](./LED_bright.html)
+## [燈泡圖片亮 & LED 燈亮](./LED_bright.html)
 - GND (接地)：LED 短腳
 - 13：LED 長腳
 
@@ -23,7 +23,7 @@ boardReady({device: 'wa8w'}, board => {
 });
 ```
 
-## [點擊燈泡開關 LED 燈](./Switch_LED.html)
+## [點擊燈泡圖片切換 LED 燈開關](./Switch_LED.html)
 - GND (接地)：LED 短腳
 - 13：LED 長腳
 
@@ -53,26 +53,48 @@ boardReady({device: 'wa8w'}, board => {
 
 <a href="./image/Click_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_1.jpg" width="300"></a>
 
+## 點擊燈泡圖片 切換
 ```javascript
 var led_red, led_yellow;
 var light = document.getElementById("light");
 
 boardReady({device: 'wa8w'}, board => {
-  board.systemReset();
-  board.samplingInterval = 250;
-  led_red = getLed(board, 10);
-  led_yellow = getLed(board, 11);
-  led_red.off();
-  led_yellow.on();
-  light.className = "off";
-  light.addEventListener("click", () => {
-    led_red.toggle();
-    led_yellow.toggle();
-    light.className = light.className == "on" ? "off" : "on";
-  });
+    board.systemReset();
+    board.samplingInterval = 250;
+    led_red = getLed(board, 10);
+    led_yellow = getLed(board, 11);
+    led_red.off();
+    led_yellow.on();
+    light.className = "off";
+    light.addEventListener("click", () => {
+        led_red.toggle();
+        led_yellow.toggle();
+        light.className = light.className == "on" ? "off" : "on";
+    });
 });
 ```
 
-Demo：
+## 自動間隔幾秒後 切換
+```javascript
+var led_red, led_yellow;
+var light = document.getElementById("light");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    led_red = getLed(board, 10);
+    led_yellow = getLed(board, 11);
+    led_red.off();
+    led_yellow.on();
+    light.className = "off";
+    setInterval(() => {
+        led_red.toggle();
+        led_yellow.toggle();
+        light.className = light.className == "on" ? "off" : "on";
+    }, 2000);
+});
+```
+
+## Demo
 
 <a href="./image/Click_Switch_Yellow-Red_LED_2.gif" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_2.gif" width="300"></a>

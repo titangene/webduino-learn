@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Click Switch Yellow & Red LED</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<style>
+#light img {
+  height: 200px;
+  display: none;
+  pointer-events: auto !important;
+}
+
+#light.off #light_off, #light.on #light_on {
+  display: inline-block;
+  pointer-events: auto !important;
+}
+</style>
+</head>
+
+<body>
+<div id="light" class="off">
+  <img src="https://blockly.webduino.io/media/off.jpg" id="light_off">
+  <img src="https://blockly.webduino.io/media/on.jpg" id="light_on">
+</div>
+
+<script>
+var led_red, led_yellow;
+var light = document.getElementById("light");
+
+boardReady({device: 'wa8w'}, board => {
+  board.systemReset();
+  board.samplingInterval = 250;
+  led_red = getLed(board, 10);
+  led_yellow = getLed(board, 11);
+  led_red.off();
+  led_yellow.on();
+  light.className = "off";
+  light.addEventListener("click", () => {
+    led_red.toggle();
+    led_yellow.toggle();
+    light.className = light.className == "on" ? "off" : "on";
+  });
+});
+</script>
+</body>

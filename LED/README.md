@@ -74,7 +74,7 @@ boardReady({device: 'wa8w'}, board => {
 });
 ```
 
-### [自動間隔幾秒後 切換](Autok_Switch_Yellow-Red_LED.html)
+### [自動間隔幾秒後 切換](Auto_Switch_Yellow-Red_LED.html)
 ```javascript
 var led_red, led_yellow;
 var light = document.getElementById("light");

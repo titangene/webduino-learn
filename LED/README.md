@@ -5,26 +5,26 @@
 var led;
 
 boardReady({device: 'wa8w'}, board => {
-  board.systemReset();
-  board.samplingInterval = 250;
-  led = getLed(board, 13);
-  led.on();
-  document.getElementById("light").className = "on";
+    board.systemReset();
+    board.samplingInterval = 250;
+    led = getLed(board, 13);
+    led.on();
+    document.getElementById("light").className = "on";
 });
 ```
 
 ## [開關 LED 燈](./Switch_LED.html)
 ```javascript
 boardReady({device: 'wa8w'}, board => {
-  board.systemReset();
-  board.samplingInterval = 250;
-  led = getLed(board, 13);
-  led.off();
-  light.className = "off";
-  light.addEventListener("click", () => {
-    led.toggle();
-    light.className = light.className == "on" ? "off" : "on";
-  });
+    board.systemReset();
+    board.samplingInterval = 250;
+    led = getLed(board, 13);
+    led.off();
+    light.className = "off";
+    light.addEventListener("click", () => {
+        led.toggle();
+        light.className = light.className == "on" ? "off" : "on";
+    });
 });
 ```
 

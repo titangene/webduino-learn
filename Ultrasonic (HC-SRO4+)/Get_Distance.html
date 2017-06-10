@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Get Distance</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+</head>
+
+<body>
+<h1 id="show">0</h1>
+
+<script>
+var ultrasonic;
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    ultrasonic = getUltrasonic(board, 11, 10);
+    ultrasonic.ping(cm => {
+        console.log(ultrasonic.distance);
+        document.getElementById("show").innerHTML = ultrasonic.distance;
+    }, 500);
+});
+</script>
+</body>

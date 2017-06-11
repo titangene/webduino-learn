@@ -31,3 +31,22 @@ boardReady({device: 'kzpV'}, board => {
     }, 500);
 });
 ```
+
+## [利用 超音波 擷取距離 縮放圖片大小](./Get_Distance_Zoom_Picture.html)
+
+```javascript
+var ultrasonic;
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    ultrasonic = getUltrasonic(board, 11, 10);
+    ultrasonic.ping(cm => {
+        console.log(ultrasonic.distance);
+        var imageWidth = ultrasonic.distance;
+        var imageHeight = ultrasonic.distance;
+        document.getElementById("image").style.width = imageWidth+"px";
+        document.getElementById("image").style.height = imageHeight+"px";
+    }, 500);
+});
+```

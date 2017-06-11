@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>RGB LED Click Button Change Color</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<style>
+#show {
+    margin-top: 10px;
+    width: 180px;
+    height: 80px;
+    background: #ccc;
+}
+#redBtn {color: #f00;}
+#greenBtn {color: #0a0;}
+#blueBtn {color: #00f;}
+</style>
+</head>
+
+<body>
+<button id="redBtn">紅色</button>
+<button id="greenBtn">綠色</button>
+<button id="blueBtn">藍色</button>
+<button id="clearBtn">清除</button>
+<div id="show"></div>
+
+<script>
+var rgbled;
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    rgbled = getRGBLed(board, 10, 9, 6);
+    rgbled.setColor('#000000');
+    document.getElementById("show").style.background = '#000';
+    changeColor("redBtn", '#f00');
+    changeColor("greenBtn", '#3f3');
+    changeColor("blueBtn", '#33f');
+    changeColor("clearBtn", '#000');
+});
+
+function changeColor(btn, color) {
+    document.getElementById(btn).addEventListener("click",() => {
+        rgbled.setColor(color);
+        document.getElementById("show").style.background = color;
+    });
+}
+</script>
+</body>

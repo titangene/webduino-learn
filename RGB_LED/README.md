@@ -34,3 +34,32 @@ boardReady({device: 'wa8w'}, board => {
 Demo：
 
 <a href="./image/RGB_LED_Change_Color.png" target="_blank"><img src="./image/RGB_LED_Change_Color.png"></a>
+
+## [點擊按鈕變顏色](./RGB_LED_Click_Button_Change_Color.html)
+
+```javascript
+var rgbled;
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    rgbled = getRGBLed(board, 10, 9, 6);
+    rgbled.setColor('#000000');
+    document.getElementById("show").style.background = '#000';
+    changeColor("redBtn", '#f00');
+    changeColor("greenBtn", '#3f3');
+    changeColor("blueBtn", '#33f');
+    changeColor("clearBtn", '#000');
+});
+
+function changeColor(btn, color) {
+    document.getElementById(btn).addEventListener("click",() => {
+        rgbled.setColor(color);
+        document.getElementById("show").style.background = color;
+    });
+}
+```
+
+Demo：
+
+<a href="./image/RGB_LED_Click_Button_Change_Color.png" target="_blank"><img src="./image/RGB_LED_Click_Button_Change_Color.png"></a>

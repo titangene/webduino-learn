@@ -5,11 +5,11 @@
 [Webduino 官方教學範例 - LED 燈](https://webduino.io/tutorials/tutorial-01-led.html)
 
 ## [燈泡圖片亮 & LED 燈亮](./LED/LED_bright.html)
+### 接線
 - GND (接地)：LED 短腳
 - 13：LED 長腳
 
-實際接線照片：
-
+### 實際接線照片：
 <a href="./image/LED_bright.jpg" target="_blank"><img src="./image/LED_bright.jpg" width="300"></a>
 
 ```javascript
@@ -27,6 +27,7 @@ boardReady({device: 'wa8w'}, board => {
 ---
 
 ## [點擊燈泡圖片切換 LED 燈開關](./LED/Switch_LED.html)
+### 接線
 - GND (接地)：LED 短腳
 - 13：LED 長腳
 
@@ -50,12 +51,12 @@ boardReady({device: 'wa8w'}, board => {
 ---
 
 ## 黃亮紅不亮，黃不亮紅亮 切換
+### 接線
 - GND (接地)：LED 短腳
 - 10：紅 LED 長腳
 - 11：黃 LED 長腳
 
-實際接線照片：
-
+### 實際接線照片：
 <a href="./image/Click_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_1.jpg" width="300"></a>
 
 ### [點擊燈泡圖片 切換](./Click_Switch_Yellow-Red_LED.html)
@@ -110,13 +111,13 @@ boardReady({device: 'wa8w'}, board => {
 
 ## [紅綠燈](./Traffic-light.html)
 
+### 接線
 - GND (接地)：LED 短腳
 - 10：紅 LED 長腳
 - 11：黃 LED 長腳
 - 7：綠 LED 長腳
 
-實際接線照片：
-
+### 實際接線照片：
 <a href="./image/Auto_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_1.jpg" width="49%"></a>
 <a href="./image/Auto_Switch_Yellow-Red_LED_2.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_2.jpg" width="49%"></a>
 
@@ -177,10 +178,10 @@ boardReady({device: 'wa8w'}, board => {
 - GND：接地
 
 ## 接線
-VCC：3.3V
-Trig：11
-Echo：10
-GND：GND
+- VCC：3.3V
+- Trig：11
+- Echo：10
+- GND：GND
 
 ## 實際接線照片
 <a href="./image/HC-SRO4+_1.jpg" target="_blank"><img src="./image/HC-SRO4+_1.jpg" width="300"></a>
@@ -292,3 +293,36 @@ function changeColor(btn, color) {
 Demo：
 
 <a href="./image/RGB_LED_Click_Button_Change_Color.png" target="_blank"><img src="./image/RGB_LED_Click_Button_Change_Color.png"></a>
+
+---
+
+## [利用拉霸調整顏色](./RGB_LED_SliderBar_Change_Color.html)
+
+```javascript
+var rgbled;
+var color = {"red": "00", "green": "00", "blue": "00"};
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    rgbled = getRGBLed(board, 10, 9, 6);
+    rgbled.setColor('#000');
+    document.getElementById("show").style.background = '#000';
+    document.getElementById("red").addEventListener("change", changeColor);
+    document.getElementById("green").addEventListener("change", changeColor);
+    document.getElementById("blue").addEventListener("change", changeColor);
+});
+
+function changeColor(e) {
+    var id = e.target.id;
+    color[id] = e.target.value * 1;
+    color[id] = color[id] < 17 ? "0" + color[id].toString(16) : color[id].toString(16);
+    var rgb = "#" + color.red + color.green + color.blue;
+    rgbled.setColor(rgb);
+    document.getElementById("show").style.background = rgb;
+}
+```
+
+Demo：
+
+<a href="./image/RGB_LED_SliderBar_Change_Color.png" target="_blank"><img src="./image/RGB_LED_SliderBar_Change_Color.png"></a>

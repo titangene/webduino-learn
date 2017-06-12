@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>RGB LED SliderBar Change Color</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<style>
+input {width: 200px;}
+#show {
+  width: 236px;
+  height: 80px;
+  background: #ccc;
+  border: 1px solid #333;
+  margin: 15px 0;
+}
+</style>
+</head>
+
+<body>
+<span style="color:red;">紅色</span>
+<input type="range" min="0" max="255" value="0" id="red"><br>
+<span style="color:green;">綠色</span>
+<input type="range" min="0" max="255" value="0" id="green"><br>
+<span style="color:blue;">藍色</span>
+<input type="range" min="0" max="255" value="0" id="blue">
+<div id="show"></div>
+
+<script>
+var rgbled;
+var color = {"red": "00", "green": "00", "blue": "00"};
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    rgbled = getRGBLed(board, 10, 9, 6);
+    rgbled.setColor('#000');
+    document.getElementById("show").style.background = '#000';
+    document.getElementById("red").addEventListener("change", changeColor);
+    document.getElementById("green").addEventListener("change", changeColor);
+    document.getElementById("blue").addEventListener("change", changeColor);
+});
+
+function changeColor(e) {
+    var id = e.target.id;
+    color[id] = e.target.value * 1;
+    color[id] = color[id] < 17 ? "0" + color[id].toString(16) : color[id].toString(16);
+    var rgb = "#" + color.red + color.green + color.blue;
+    rgbled.setColor(rgb);
+    document.getElementById("show").style.background = rgb;
+}
+</script>
+</body>

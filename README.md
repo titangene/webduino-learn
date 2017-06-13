@@ -1,5 +1,5 @@
 # webduino-learn
-# [LED](https://github.com/titangene/webduino-learn/tree/master/LED)
+# [LED](./LED)
 <a href="./image/LED.jpg" target="_blank"><img src="./image/LED.jpg" width="300"></a>
 
 [Webduino 官方教學範例 - LED 燈](https://webduino.io/tutorials/tutorial-01-led.html)
@@ -59,7 +59,7 @@ boardReady({device: 'wa8w'}, board => {
 ### 實際接線照片：
 <a href="./image/Click_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_1.jpg" width="300"></a>
 
-### [點擊燈泡圖片 切換](./Click_Switch_Yellow-Red_LED.html)
+### [點擊燈泡圖片 切換](./LED/Click_Switch_Yellow-Red_LED.html)
 ```javascript
 var led_red, led_yellow;
 var light = document.getElementById("light");
@@ -82,7 +82,7 @@ boardReady({device: 'wa8w'}, board => {
 
 ---
 
-### [自動間隔幾秒後 切換](Auto_Switch_Yellow-Red_LED.html)
+### [自動間隔幾秒後 切換](./LED/Auto_Switch_Yellow-Red_LED.html)
 ```javascript
 var led_red, led_yellow;
 var light = document.getElementById("light");
@@ -109,7 +109,7 @@ boardReady({device: 'wa8w'}, board => {
 
 ---
 
-## [紅綠燈](./Traffic-light.html)
+## [紅綠燈](./LED/Traffic-light.html)
 
 ### 接線
 - GND (接地)：LED 短腳
@@ -169,7 +169,7 @@ boardReady({device: 'wa8w'}, board => {
 
 ---
 
-# [超音波 (Ultrasonic HC-SRO4+)](https://github.com/titangene/webduino-learn/tree/master/Ultrasonic_(HC-SRO4%2B))
+# [超音波 (Ultrasonic HC-SRO4+)](./Ultrasonic_(HC-SRO4%2B))
 <a href="./image/HC-SRO4+.jpg" target="_blank"><img src="./image/HC-SRO4+.jpg" width="300"></a>
 
 - VCC：供應電源 (3 ~ 5.5V)
@@ -187,7 +187,7 @@ boardReady({device: 'wa8w'}, board => {
 <a href="./image/HC-SRO4+_1.jpg" target="_blank"><img src="./image/HC-SRO4+_1.jpg" width="300"></a>
 <a href="./image/HC-SRO4+_2.jpg" target="_blank"><img src="./image/HC-SRO4+_2.jpg" width="300"></a>
 
-## [超音波 顯示 擷取距離](./Get_Distance.html)
+## [超音波 顯示 擷取距離](./Ultrasonic_(HC-SRO4%2B)/Get_Distance.html)
 
 ```javascript
 var ultrasonic;
@@ -203,7 +203,7 @@ boardReady({device: 'kzpV'}, board => {
 });
 ```
 
-## [利用 超音波 擷取距離 縮放圖片大小](./Get_Distance_Zoom_Picture.html)
+## [利用 超音波 擷取距離 縮放圖片大小](./Ultrasonic_(HC-SRO4%2B)/Get_Distance_Zoom_Picture.html)
 
 ```javascript
 var ultrasonic;
@@ -224,7 +224,7 @@ boardReady({device: 'kzpV'}, board => {
 
 ---
 
-# [三色 LED (RGB LED)](https://github.com/titangene/webduino-learn/tree/master/RGB_LED)
+# [三色 LED (RGB LED)](./RGB_LED)
 <a href="./image/RGB_LED.jpg" target="_blank"><img src="./image/RGB_LED.jpg" width="300"></a>
 
 [Webduino 官方教學範例 - 三色 LED](https://webduino.io/tutorials/tutorial-03-rgbled.html)
@@ -243,7 +243,7 @@ boardReady({device: 'kzpV'}, board => {
 
 ---
 
-## [選擇某顏色就變該顏色](./RGB_LED_Change_Color.html)
+## [選擇某顏色就變該顏色](./RGB_LED/RGB_LED_Change_Color.html)
 
 ```javascript
 var rgbled;
@@ -265,7 +265,7 @@ Demo：
 
 ---
 
-## [點擊按鈕變顏色](./RGB_LED_Click_Button_Change_Color.html)
+## [點擊按鈕變顏色](./RGB_LED/RGB_LED_Click_Button_Change_Color.html)
 
 ```javascript
 var rgbled;
@@ -296,7 +296,7 @@ Demo：
 
 ---
 
-## [利用拉霸調整顏色](./RGB_LED_SliderBar_Change_Color.html)
+## [利用拉霸調整顏色](./RGB_LED/RGB_LED_SliderBar_Change_Color.html)
 
 ```javascript
 var rgbled;
@@ -329,7 +329,7 @@ Demo：
 
 ---
 
-## [利用時間變換三色 LED 燈 顏色 - 七彩霓虹燈](./RGB_LED_SliderBar_Change_Color.html)
+## [七彩霓虹燈 - 利用時間改變三色 LED 燈顏色](./RGB_LED/RGB_LED_Colorful_Neon_lighting.html)
 
 ```javascript
 var rgbled, timer, time = 300;
@@ -367,4 +367,55 @@ function repeat() {
     }).then(() => { rgbled.setColor('#c6c'); return delay(time);
     }).then(() => repeat());
 }
+```
+
+---
+
+# [三色 LED (RGB LED) & 超音波 (Ultrasonic HC-SRO4+)](./RGB_LED&Ultrasonic_(HC-SRO4%2B))
+
+## 接線
+- 三色LED
+    - V：3.3V
+    - R：10
+    - B：6
+    - G：9
+- 超音波
+    - VCC：5V
+    - Trig：7
+    - Echo：8
+    - GND：GND
+
+## 實際接線照片
+<a href="./image/RGB_LED&HC-SRO4+_2.jpg" target="_blank"><img src="./image/RGB_LED&HC-SRO4+_2.jpg" width="300"></a>
+<a href="./image/RGB_LED&HC-SRO4+_3.jpg" target="_blank"><img src="./image/RGB_LED&HC-SRO4+_3.jpg" width="300"></a>
+<a href="./image/RGB_LED&HC-SRO4+_1.jpg" target="_blank"><img src="./image/RGB_LED&HC-SRO4+_1.jpg" width="300"></a>
+<a href="./image/RGB_LED&HC-SRO4+_5.jpg" target="_blank"><img src="./image/RGB_LED&HC-SRO4+_5.jpg" width="300"></a>
+<a href="./image/RGB_LED&HC-SRO4+_4.jpg" target="_blank"><img src="./image/RGB_LED&HC-SRO4+_4.jpg" width="300"></a>
+
+## [利用超音波改變三色 LED 燈顏色](./RGB_LED&Ultrasonic_(HC-SRO4%2B)/Ultrasonic_Change_RGB_LED_Color.html)
+
+```javascript
+var rgbled, ultrasonic, i = 0;
+var color = ["#f00", "#f90", "#ff0", "#3f3", "#33f", "#c6c"];
+var show = document.getElementById("show");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    rgbled = getRGBLed(board, 10, 9, 6);
+    ultrasonic = getUltrasonic(board, 7, 8);
+    rgbled.setColor('#000');
+    show.style.background = '#000';
+    ultrasonic.ping(cm => {
+        console.log(ultrasonic.distance);
+        i = Math.floor(ultrasonic.distance / 10);
+        if (ultrasonic.distance < 50) {
+            rgbled.setColor(color[i]);
+            show.style.background = color[i];
+        } else {
+            rgbled.setColor(color[5]);
+            show.style.background = color[5];
+        }
+    }, 500);
+});
 ```

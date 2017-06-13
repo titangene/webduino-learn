@@ -326,3 +326,45 @@ function changeColor(e) {
 Demo：
 
 <a href="./image/RGB_LED_SliderBar_Change_Color.png" target="_blank"><img src="./image/RGB_LED_SliderBar_Change_Color.png"></a>
+
+---
+
+## [利用時間變換三色 LED 燈 顏色 - 七彩霓虹燈](./RGB_LED_SliderBar_Change_Color.html)
+
+```javascript
+var rgbled, timer, time = 300;
+var light = document.getElementById("light");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    rgbled = getRGBLed(board, 10, 9, 6);
+    rgbled.setColor('#000');
+    light.setAttribute("class","off");
+    light.addEventListener("click", () => {
+        if (light.getAttribute("class") == "off") {
+            light.setAttribute("class", "on");
+            rgbled.setColor('#000');
+            repeat();
+        } else {
+            light.setAttribute("class", "off");
+            rgbled.setColor('#000');
+            clearTimeout(timer);
+        }
+    });
+});
+
+function delay(time) {
+    return new Promise(resolve => timer = setTimeout(resolve, time));
+}
+
+function repeat() {
+    delay(1).then(() => { rgbled.setColor('#f00'); return delay(time);
+    }).then(() => { rgbled.setColor('#f90'); return delay(time);
+    }).then(() => { rgbled.setColor('#ff3'); return delay(time);
+    }).then(() => { rgbled.setColor('#3f3'); return delay(time);
+    }).then(() => { rgbled.setColor('#33f'); return delay(time);
+    }).then(() => { rgbled.setColor('#c6c'); return delay(time);
+    }).then(() => repeat());
+}
+```

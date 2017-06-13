@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>RGB LED Colorful Neon lighting</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<style>
+#light img {height: 200px; display: none;}
+#light.off img:first-child, #light.on img:last-child {
+  display: inline-block;
+}
+#show {
+    margin-top: 5px;
+    width: 150px;
+    height: 80px;
+    background: #ccc;
+}
+</style>
+</head>
+
+<body>
+<div id="light" class="off">
+    <img src="http://i.imgur.com/T5H4MHE.png">
+    <img src="http://i.imgur.com/8qFj2Ou.png">
+</div>
+
+<script>
+var rgbled, timer, time = 300;
+var light = document.getElementById("light");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    rgbled = getRGBLed(board, 10, 9, 6);
+    rgbled.setColor('#000');
+    light.setAttribute("class","off");
+    light.addEventListener("click", () => {
+        if (light.getAttribute("class") == "off") {
+            light.setAttribute("class", "on");
+            rgbled.setColor('#000');
+            repeat();
+        } else {
+            light.setAttribute("class", "off");
+            rgbled.setColor('#000');
+            clearTimeout(timer);
+        }
+    });
+});
+
+function delay(time) {
+    return new Promise(resolve => timer = setTimeout(resolve, time));
+}
+
+function repeat() {
+    delay(1).then(() => { rgbled.setColor('#f00'); return delay(time);
+    }).then(() => { rgbled.setColor('#f90'); return delay(time);
+    }).then(() => { rgbled.setColor('#ff3'); return delay(time);
+    }).then(() => { rgbled.setColor('#3f3'); return delay(time);
+    }).then(() => { rgbled.setColor('#33f'); return delay(time);
+    }).then(() => { rgbled.setColor('#c6c'); return delay(time);
+    }).then(() => repeat());
+}
+</script>
+</body>

@@ -9,7 +9,7 @@
 - GND (接地)：LED 短腳
 - 13：LED 長腳
 
-### 實際接線照片：
+### 實際接線照片
 <a href="./image/LED_bright.jpg" target="_blank"><img src="./image/LED_bright.jpg" width="300"></a>
 
 ```javascript
@@ -56,7 +56,7 @@ boardReady({device: 'wa8w'}, board => {
 - 10：紅 LED 長腳
 - 11：黃 LED 長腳
 
-### 實際接線照片：
+### 實際接線照片
 <a href="./image/Click_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_1.jpg" width="300"></a>
 
 ### [點擊燈泡圖片 切換](./LED/Click_Switch_Yellow-Red_LED.html)
@@ -117,7 +117,7 @@ boardReady({device: 'wa8w'}, board => {
 - 11：黃 LED 長腳
 - 7：綠 LED 長腳
 
-### 實際接線照片：
+### 實際接線照片
 <a href="./image/Auto_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_1.jpg" width="49%"></a>
 <a href="./image/Auto_Switch_Yellow-Red_LED_2.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_2.jpg" width="49%"></a>
 
@@ -417,5 +417,43 @@ boardReady({device: 'kzpV'}, board => {
             show.style.background = color[5];
         }
     }, 500);
+});
+```
+
+---
+
+# [按鈕開關 (Button)](./Button)
+<a href="./image/Button.jpg" target="_blank"><img src="./image/Button.jpg" width="150"></a>
+
+[Webduino 官方教學範例 - 按鈕開關](https://webduino.io/tutorials/tutorial-09-button-led.html)
+
+## 接線
+利用麵包板中間斷路的設計，將按鈕開關各邊的兩腳橫跨兩邊，才能讓四腳都通路，然後再用電阻連接 GND (為了避免有短路的可能發生，所以要接一顆電阻進行保護)
+
+- 按鈕
+    - 3.3V
+    - 11
+    - 按鈕 → 電阻 → GND
+
+## 實際接線照片
+<a href="./image/Button_1.jpg" target="_blank"><img src="./image/Button_1.jpg" width="300"></a>
+<a href="./image/Button_2.jpg" target="_blank"><img src="./image/Button_2.jpg" width="300"></a>
+<a href="./image/Button_3.jpg" target="_blank"><img src="./image/Button_3.jpg" width="300"></a>
+<a href="./image/Button_4.jpg" target="_blank"><img src="./image/Button_4.jpg" width="300"></a>
+<a href="./image/Button_5.jpg" target="_blank"><img src="./image/Button_5.jpg" width="300"></a>
+
+## [監聽按鈕動作 (按下、按住、長按)](./Button/Listen_Button_Action.html)
+
+```javascript
+var button;
+var show = document.getElementById("show");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    button = getButton(board, 11);
+    button.on("pressed", () => show.innerHTML = '按下');
+    button.on("released", () => show.innerHTML = '放開');
+    button.on("longPress", () => show.innerHTML = '長按');
 });
 ```

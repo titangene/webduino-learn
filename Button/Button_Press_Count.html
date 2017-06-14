@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Listen Button Action</title>
+<title>Button Press Count</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
@@ -14,16 +14,16 @@
 <h1 id="show">123</h1>
 
 <script>
-var button;
+var button, count = 0;
 var show = document.getElementById("show");
 
 boardReady({device: 'kzpV'}, board => {
     board.systemReset();
     board.samplingInterval = 250;
     button = getButton(board, 11);
-    button.on("pressed", () => show.innerHTML = '按下');
-    button.on("released", () => show.innerHTML = '放開');
-    button.on("longPress", () => show.innerHTML = '長按');
+    show.innerHTML = 0;
+    button.on("pressed", () => show.innerHTML = count++);
+    button.on("longPress", () => show.innerHTML = count = 0);
 });
 </script>
 </body>

@@ -457,3 +457,21 @@ boardReady({device: 'kzpV'}, board => {
     button.on("longPress", () => show.innerHTML = '長按');
 });
 ```
+
+---
+
+## [按鈕 按下 + 1、按住 歸 0](./Button/Button_Press_Count.html)
+
+```javascript
+var button, count = 0;
+var show = document.getElementById("show");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    button = getButton(board, 11);
+    show.innerHTML = 0;
+    button.on("pressed", () => show.innerHTML = count++);
+    button.on("longPress", () => show.innerHTML = count = 0);
+});
+```

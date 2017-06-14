@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Press button Race run</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<style>
+#start {
+    font-size: 24px;
+    padding: 10px;
+    margin-top: 10px;
+}
+#start.go {display: none;}
+#npc, #user {transition: .3s;}
+#npc img, #user img {width: 60px; transform: scaleX(-1);}
+#distance {
+    width: 100px;
+    height: 3px;
+    background: #f00;
+    margin-left: 30px;
+}
+</style>
+</head>
+
+<body>
+<p>先到<span id="goal">終點</span>的人就贏</p>
+<p>電腦：<span id="npcshow">0</span></p>
+<p>玩家：<span id="usershow">0</span></p>
+<div id="npc">
+    <img src="http://webduinoio.github.io/webduino-blockly/media/tutorials/run-cat.gif">
+</div>
+<div id="user">
+    <img src="http://webduinoio.github.io/webduino-blockly/media/tutorials/run-lion.gif">
+</div>
+<div id="distance"></div>
+<button id="start" class="go">開始賽跑</button>
+
+<script>
+var button;
+var NpcShow = document.getElementById("npcshow"),
+    UserShow = document.getElementById("usershow"),
+    Npc = document.getElementById("npc"),
+    User = document.getElementById("user"),
+    Start = document.getElementById("start"),
+    Timer, GameA = 0, GameB = 0,
+    Distance = 100,
+    NpcSpeed = 2, UserSpeed;
+
+boardReady({device: 'wa8w'}, function (board) {
+    board.systemReset();
+    board.samplingInterval = 250;
+    button = getButton(board, 11);
+
+    Start.className = "";
+    document.getElementById("goal").innerHTML = Distance;
+    Start.addEventListener("click",go);
+});
+
+Start.className = "";
+    document.getElementById("goal").innerHTML = Distance;
+    Start.addEventListener("click",go);
+
+function go() {
+    Start.className = "go";
+    GameA = 0, GameB = 0;
+    //button.on("pressed", userRun);
+    Timer = setInterval(NPCRun, 120);
+}
+
+function userRun() {
+    UserShow.innerHTML = GameA += 5;
+    User.style.marginLeft = GameA + "px";
+    if (GameA >= Distance) {
+        alert("You Win !!!");
+        stop();
+    }
+}
+
+function NPCRun() {
+    NpcShow.innerHTML = GameB += NpcSpeed;
+    Npc.style.marginLeft = GameB + "px";
+    if (GameB >= Distance) {
+        alert("GAME OVER !!! You Lose !!!");
+        stop();
+    }
+}
+
+function stop() {
+    clearInterval(Timer);
+    GameA = 0, GameB = 0;
+    NpcShow.innerHTML = 0;
+    UserShow.innerHTML = 0;
+    Npc.style.marginLeft = 0;
+    User.style.marginLeft = 0;
+    Start.className = "";
+    button.removeAllListeners("pressed");
+}
+</script>
+</body>

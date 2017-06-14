@@ -104,7 +104,6 @@ boardReady({device: 'wa8w'}, board => {
 ```
 
 ### Demo
-
 <a href="./image/Click_Switch_Yellow-Red_LED_2.gif" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_2.gif" width="300"></a>
 
 ---
@@ -259,8 +258,7 @@ boardReady({device: 'wa8w'}, board => {
 });
 ```
 
-Demo：
-
+### Demo
 <a href="./image/RGB_LED_Change_Color.png" target="_blank"><img src="./image/RGB_LED_Change_Color.png"></a>
 
 ---
@@ -290,8 +288,7 @@ function changeColor(btn, color) {
 }
 ```
 
-Demo：
-
+### Demo
 <a href="./image/RGB_LED_Click_Button_Change_Color.png" target="_blank"><img src="./image/RGB_LED_Click_Button_Change_Color.png"></a>
 
 ---
@@ -323,8 +320,7 @@ function changeColor(e) {
 }
 ```
 
-Demo：
-
+### Demo
 <a href="./image/RGB_LED_SliderBar_Change_Color.png" target="_blank"><img src="./image/RGB_LED_SliderBar_Change_Color.png"></a>
 
 ---
@@ -475,3 +471,68 @@ boardReady({device: 'kzpV'}, board => {
     button.on("longPress", () => show.innerHTML = count = 0);
 });
 ```
+
+---
+
+## [按按鈕 比賽跑](./Button/Button_Press_Count.html)
+
+```javascript
+var button;
+var NpcShow = document.getElementById("npcshow"),
+    UserShow = document.getElementById("usershow"),
+    Npc = document.getElementById("npc"),
+    User = document.getElementById("user"),
+    Start = document.getElementById("start"),
+    Timer, GameA = 0, GameB = 0,
+    Distance = 100,
+    NpcSpeed = 2, UserSpeed;
+
+boardReady({device: 'wa8w'}, function (board) {
+    board.systemReset();
+    board.samplingInterval = 250;
+    button = getButton(board, 11);
+
+    Start.className = "";
+    document.getElementById("goal").innerHTML = Distance;
+    Start.addEventListener("click",go);
+});
+
+function go() {
+    Start.className = "go";
+    GameA = 0, GameB = 0;
+    button.on("pressed", userRun);
+    Timer = setInterval(NPCRun, 120);
+}
+
+function userRun() {
+    UserShow.innerHTML = GameA += 5;
+    User.style.marginLeft = GameA + "px";
+    if (GameA >= Distance) {
+        alert("You Win !!!");
+        stop();
+    }
+}
+
+function NPCRun() {
+    NpcShow.innerHTML = GameB += NpcSpeed;
+    Npc.style.marginLeft = GameB + "px";
+    if (GameB >= Distance) {
+        alert("GAME OVER !!! You Lose !!!");
+        stop();
+    }
+}
+
+function stop() {
+    clearInterval(Timer);
+    GameA = 0, GameB = 0;
+    NpcShow.innerHTML = 0;
+    UserShow.innerHTML = 0;
+    Npc.style.marginLeft = 0;
+    User.style.marginLeft = 0;
+    Start.className = "";
+    button.removeAllListeners("pressed");
+}
+```
+
+### DemoDemo
+<a href="./image/Press_Button_Race_Run.png" target="_blank"><img src="./image/Press_Button_Race_Run.png"></a>

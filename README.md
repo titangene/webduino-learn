@@ -534,5 +534,53 @@ function stop() {
 }
 ```
 
-### DemoDemo
+### Demo
 <a href="./image/Press_Button_Race_Run.png" target="_blank"><img src="./image/Press_Button_Race_Run.png"></a>
+
+---
+
+# [人體紅外線偵測傳感器 (PIR sensor, Passive infrared sensor) & LED](./PIR&LED)
+<a href="./image/PIR_1.jpg" target="_blank"><img src="./image/PIR_1.jpg" height="180"></a>
+<a href="./image/PIR_2.jpg" target="_blank"><img src="./image/PIR_2.jpg" height="180"></a>
+
+[Webduino 官方教學範例 - 人體紅外線偵測傳感器 控制 LED](https://webduino.io/tutorials/tutorial-15-pir-led.html)
+
+## 接線
+
+- 人體紅外線偵測傳感器 (PIR sensor)
+    - GND：GND
+    - OUT：11
+    - VCC：5V
+- LED
+    - 長腳：10
+    - 短腳：GND
+
+## 實際接線照片
+<a href="./image/PIR&LED_1.jpg" target="_blank"><img src="./image/PIR&LED_1.jpg"></a>
+<a href="./image/PIR&LED_2.jpg" target="_blank"><img src="./image/PIR&LED_2.jpg" width="300"></a>
+<a href="./image/PIR&LED_3.jpg" target="_blank"><img src="./image/PIR&LED_3.jpg" width="300"></a>
+<a href="./image/PIR&LED_4.jpg" target="_blank"><img src="./image/PIR&LED_4.jpg" width="300"></a>
+<a href="./image/PIR&LED_5.jpg" target="_blank"><img src="./image/PIR&LED_5.jpg" width="300"></a>
+
+## [人體紅外線偵測傳感器 控制 LED](./PIR&LED/PIR_Control_LED.html)
+
+```javascript
+var pir, led;
+var light = document.getElementById("light");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    pir = getPir(board, 11);
+    led = getLed(board, 10);
+    led.off();
+    pir.on("detected", () => {
+        light.setAttribute("class", "on");
+        led.on();
+    });
+    pir.on("ended", () => {
+        light.setAttribute("class", "off");
+        led.off();
+    });
+});
+```

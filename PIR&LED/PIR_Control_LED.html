@@ -3,44 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Auto Switch Yellow & Red LED</title>
+<title>PIR Control LED</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
 <script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
 <style>
-#light img {
-    height: 200px;
-    display: none;
-}
-
-#light.off #light_off, #light.on #light_on {display: inline-block;}
+#light img {height: 200px; display: none;}
+#light.off img:first-child, #light.on img:last-child {display: inline-block;}
 </style>
 </head>
 
 <body>
 <div id="light" class="off">
-    <img src="https://blockly.webduino.io/media/off.jpg" id="light_off">
-    <img src="https://blockly.webduino.io/media/on.jpg" id="light_on">
+    <img src="http://i.imgur.com/T5H4MHE.png">
+    <img src="http://i.imgur.com/8qFj2Ou.png">
 </div>
 
 <script>
-var led_red, led_yellow;
+var pir, led;
 var light = document.getElementById("light");
 
 boardReady({device: 'wa8w'}, board => {
     board.systemReset();
     board.samplingInterval = 250;
-    led_red = getLed(board, 10);
-    led_yellow = getLed(board, 11);
-    led_red.off();
-    led_yellow.on();
-    light.className = "off";
-    setInterval(() => {
-        led_red.toggle();
-        led_yellow.toggle();
-        light.className = light.className == "on" ? "off" : "on";
-    }, 2000);
+    pir = getPir(board, 11);
+    led = getLed(board, 10);
+    led.off();
+    pir.on("detected", () => {
+        light.setAttribute("class", "on");
+        led.on();
+    });
+    pir.on("ended", () => {
+        light.setAttribute("class", "off");
+        led.off();
+    });
 });
 </script>
 </body>

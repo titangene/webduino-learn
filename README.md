@@ -5,12 +5,15 @@
 [Webduino 官方教學範例 - LED 燈](https://webduino.io/tutorials/tutorial-01-led.html)
 
 ## [燈泡圖片亮 & LED 燈亮](./LED/LED_bright.html)
+
 ### 接線
 - GND (接地)：LED 短腳
-- 13：LED 長腳
+- 10：LED 長腳
 
 ### 實際接線照片
-<a href="./image/LED_bright.jpg" target="_blank"><img src="./image/LED_bright.jpg" width="300"></a>
+<a href="./image/LEDx1_1.jpg" target="_blank"><img src="./image/LEDx1_1.jpg" width="300"></a>
+<a href="./image/LEDx1_2.jpg" target="_blank"><img src="./image/LEDx1_2.jpg" width="300"></a>
+<a href="./image/LEDx1_3.jpg" target="_blank"><img src="./image/LEDx1_3.jpg" width="300"></a>
 
 ```javascript
 var led;
@@ -18,7 +21,7 @@ var led;
 boardReady({device: 'wa8w'}, board => {
     board.systemReset();
     board.samplingInterval = 250;
-    led = getLed(board, 13);
+    led = getLed(board, 10);
     led.on();
     document.getElementById("light").className = "on";
 });
@@ -29,7 +32,7 @@ boardReady({device: 'wa8w'}, board => {
 ## [點擊燈泡圖片切換 LED 燈開關](./LED/Switch_LED.html)
 ### 接線
 - GND (接地)：LED 短腳
-- 13：LED 長腳
+- 10：LED 長腳
 
 ```javascript
 var led;
@@ -38,7 +41,7 @@ var light = document.getElementById("light");
 boardReady({device: 'wa8w'}, board => {
     board.systemReset();
     board.samplingInterval = 250;
-    led = getLed(board, 13);
+    led = getLed(board, 10);
     led.off();
     light.className = "off";
     light.addEventListener("click", () => {

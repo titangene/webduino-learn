@@ -9,14 +9,8 @@
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
 <script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
 <style>
-#light img {
-    height: 200px;
-    display: none;
-}
-
-#light.off #light_off, #light.on #light_on {
-    display: inline-block;
-}
+#light img {height: 200px; display: none;}
+#light.off #light_off, #light.on #light_on {display: inline-block;}
 </style>
 </head>
 
@@ -32,7 +26,7 @@ var led;
 boardReady({device: 'wa8w'}, board => {
     board.systemReset();
     board.samplingInterval = 250;
-    led = getLed(board, 13);
+    led = getLed(board, 10);
     led.on();
     document.getElementById("light").className = "on";
 });

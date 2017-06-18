@@ -10,14 +10,14 @@
 <script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
 <style>
 #light img {height: 200px; display: none;}
-#light.off img:first-child, #light.on img:last-child {display: inline-block;}
+#light.off #light_off, #light.on #light_on {display: inline-block;}
 </style>
 </head>
 
 <body>
 <div id="light" class="off">
-    <img src="http://i.imgur.com/T5H4MHE.png">
-    <img src="http://i.imgur.com/8qFj2Ou.png">
+    <img src="../image/light-off.jpg" id="light_off">
+    <img src="../image/light-on.jpg" id="light_on">
 </div>
 
 <script>
@@ -31,11 +31,11 @@ boardReady({device: 'wa8w'}, board => {
     led = getLed(board, 10);
     led.off();
     pir.on("detected", () => {
-        light.setAttribute("class", "on");
+        light.className = "on";
         led.on();
     });
     pir.on("ended", () => {
-        light.setAttribute("class", "off");
+        light.className = "off";
         led.off();
     });
 });

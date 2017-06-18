@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Auto Switch Yellow & Red LED</title>
+<title>Traffic light</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
@@ -16,15 +16,15 @@
 
 <body>
 <div id="light" class="off">
-    <img src="https://blockly.webduino.io/media/off.jpg" id="light_off">
-    <img src="https://blockly.webduino.io/media/on.jpg" id="light_on">
+    <img src="../image/light-off.jpg" id="light_off">
+    <img src="../image/light-on.jpg" id="light_on">
 </div>
 
 <script>
-(async function () {
-    var led_red, led_yellow, led_green;
-    var light = document.getElementById("light");
+var led_red, led_yellow, led_green;
+var light = document.getElementById("light");
 
+(async function () {
     boardReady({device: 'wa8w'}, async board => {
         board.systemReset();
         board.samplingInterval = 250;
@@ -35,26 +35,28 @@
         led_yellow.off();
         led_green.on();
         light.className = "off";
-        light.addEventListener("click", async () => {
-            if (light.className == "off") {
-                await delay(2);
-                led_red.off();
-                led_yellow.on();
-                led_green.off();
-                await delay(2);
-                led_red.on();
-                led_yellow.off();
-                led_green.off();
-                light.className = light.className == "on" ? "off" : "on";
-            } else {
-                await delay(2);
-                led_red.off();
-                led_yellow.off();
-                led_green.on();
-                light.className = light.className == "on" ? "off" : "on";
-            }
-        });
+        light.addEventListener("click", Traffic_Light);
     });
 }());
+
+async function Traffic_Light() {
+    if (light.className == "off") {
+        await delay(2);
+        led_red.off();
+        led_yellow.on();
+        led_green.off();
+        await delay(2);
+        led_red.on();
+        led_yellow.off();
+        led_green.off();
+        light.className = "on";
+    } else {
+        await delay(2);
+        led_red.off();
+        led_yellow.off();
+        led_green.on();
+        light.className = "off";
+    }
+}
 </script>
 </body>

@@ -3,22 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Get Distance Zoom Picture</title>
+<title>Ultrasonic Get Distance Zoom Picture</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
 <script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
 <style>
-#container {
-  position: relative;
-  width: 150px;
-  height: 150px;
-}
-
 #image {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 150px;
   height: 150px;
   transition: .3s;
@@ -32,12 +23,11 @@
 </head>
 
 <body>
-<div id="container">
-    <img src="http://blockly.webduino.io/media/webduino-logo.jpg" id="image">
-</div>
+<img src="http://blockly.webduino.io/media/webduino-logo.jpg" id="image">
 
 <script>
 var ultrasonic;
+var image = document.getElementById("image");
 
 boardReady({device: 'kzpV'}, board => {
     board.systemReset();
@@ -47,8 +37,8 @@ boardReady({device: 'kzpV'}, board => {
         console.log(ultrasonic.distance);
         var imageWidth = ultrasonic.distance;
         var imageHeight = ultrasonic.distance;
-        document.getElementById("image").style.width = imageWidth+"px";
-        document.getElementById("image").style.height = imageHeight+"px";
+        image.style.width = imageWidth+"px";
+        image.style.height = imageHeight+"px";
     }, 500);
 });
 </script>

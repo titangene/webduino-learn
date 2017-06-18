@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Get Distance</title>
+<title>Humidity and Temperature</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
@@ -11,19 +11,20 @@
 </head>
 
 <body>
-<h1 id="show">0</h1>
+<h1>溫度：<span id="temperature">0</span> ℃</h1>
+<h1>濕度：<span id="humidity">0</span> %</h1>
 
 <script>
-var ultrasonic;
+var dht;
 
-boardReady({device: 'kzpV'}, board => {
+boardReady({device: 'wa8w'}, board => {
     board.systemReset();
     board.samplingInterval = 250;
-    ultrasonic = getUltrasonic(board, 11, 10);
-    ultrasonic.ping(cm => {
-        console.log(ultrasonic.distance);
-        document.getElementById("show").innerHTML = ultrasonic.distance;
-    }, 500);
+    dht = getDht(board, 11);
+    dht.read(evt => {
+        document.getElementById("temperature").innerHTML = dht.temperature;
+        document.getElementById("humidity").innerHTML = dht.humidity;
+    }, 1000);
 });
 </script>
 </body>

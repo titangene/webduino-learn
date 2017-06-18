@@ -60,7 +60,7 @@ boardReady({device: 'wa8w'}, board => {
 - 11：黃 LED 長腳
 
 ### 實際接線照片
-<a href="./image/Click_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_1.jpg" width="300"></a>
+<a href="./image/Click_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_1.jpg" width="500"></a>
 
 ### [點擊燈泡圖片 切換](./LED/Click_Switch_Yellow-Red_LED.html)
 ```javascript
@@ -120,8 +120,9 @@ boardReady({device: 'wa8w'}, board => {
 - 7：綠 LED 長腳
 
 ### 實際接線照片
-<a href="./image/Auto_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_1.jpg" width="49%"></a>
+<a href="./image/Auto_Switch_Yellow-Red_LED_3.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_3.jpg" width="49%"></a>
 <a href="./image/Auto_Switch_Yellow-Red_LED_2.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_2.jpg" width="49%"></a>
+<a href="./image/Auto_Switch_Yellow-Red_LED_1.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_1.jpg" width="49%"></a>
 
 說明：
 - 開始綠燈亮，可按 點擊燈泡圖片 切換 紅燈 或 綠燈 狀態
@@ -129,10 +130,10 @@ boardReady({device: 'wa8w'}, board => {
 - 切換綠燈狀態：點擊燈泡圖片 2 秒後換綠燈亮 (其他不亮)
 
 ```javascript
-(async function () {
-    var led_red, led_yellow, led_green;
-    var light = document.getElementById("light");
+var led_red, led_yellow, led_green;
+var light = document.getElementById("light");
 
+(async function () {
     boardReady({device: 'wa8w'}, async board => {
         board.systemReset();
         board.samplingInterval = 250;
@@ -143,41 +144,47 @@ boardReady({device: 'wa8w'}, board => {
         led_yellow.off();
         led_green.on();
         light.className = "off";
-        light.addEventListener("click", async () => {
-            if (light.className == "off") {
-                await delay(2);
-                led_red.off();
-                led_yellow.on();
-                led_green.off();
-                await delay(2);
-                led_red.on();
-                led_yellow.off();
-                led_green.off();
-                light.className = light.className == "on" ? "off" : "on";
-            } else {
-                await delay(2);
-                led_red.off();
-                led_yellow.off();
-                led_green.on();
-                light.className = light.className == "on" ? "off" : "on";
-            }
-        });
+        light.addEventListener("click", Traffic_Light);
     });
 }());
+
+async function Traffic_Light() {
+    if (light.className == "off") {
+        await delay(2);
+        led_red.off();
+        led_yellow.on();
+        led_green.off();
+        await delay(2);
+        led_red.on();
+        led_yellow.off();
+        led_green.off();
+        light.className = "on";
+    } else {
+        await delay(2);
+        led_red.off();
+        led_yellow.off();
+        led_green.on();
+        light.className = "off";
+    }
+}
 ```
 
 ### Demo
-<a href="./image/Auto_Switch_Yellow-Red_LED_3.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_3.jpg" width="49%"></a>
+<a href="./image/Auto_Switch_Yellow-Red_LED_3.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_3.jpg" width="300"></a>
 
 ---
 
-# [超音波 (Ultrasonic HC-SRO4+)](./Ultrasonic_(HC-SRO4%2B))
+# [超音波傳感器 (Ultrasonic Sensor, HC-SRO4+)](./Ultrasonic_(HC-SRO4%2B))
 <a href="./image/HC-SRO4+.jpg" target="_blank"><img src="./image/HC-SRO4+.jpg" width="300"></a>
 
 - VCC：供應電源 (3 ~ 5.5V)
 - Trig：超音波觸發信號，訊號發送出去
 - Echo：超音波接收結果輸出
 - GND：接地
+
+Webduino 官方教學範例
+- [超音波 顯示 擷取距離](https://webduino.io/tutorials/tutorial-05-ultrasonic.html)
+- [利用 超音波 擷取距離 縮放圖片大小](https://webduino.io/tutorials/tutorial-06-ultrasonic-imagesize.html)
 
 ## 接線
 - VCC：3.3V
@@ -229,7 +236,9 @@ boardReady({device: 'kzpV'}, board => {
 # [三色 LED (RGB LED)](./RGB_LED)
 <a href="./image/RGB_LED.jpg" target="_blank"><img src="./image/RGB_LED.jpg" width="300"></a>
 
-[Webduino 官方教學範例 - 三色 LED](https://webduino.io/tutorials/tutorial-03-rgbled.html)
+Webduino 官方教學範例
+- [控制三色 LED](https://webduino.io/tutorials/tutorial-03-rgbled.html)
+- [三色 LED 調色盤](https://webduino.io/tutorials/tutorial-04-rgbled-palette.html)
 
 ## 接線
 - V：3.3V
@@ -243,9 +252,7 @@ boardReady({device: 'kzpV'}, board => {
 <a href="./image/RGB_LED_3.jpg" target="_blank"><img src="./image/RGB_LED_3.jpg" width="300"></a>
 <a href="./image/RGB_LED_4.jpg" target="_blank"><img src="./image/RGB_LED_4.jpg" width="300"></a>
 
----
-
-## [選擇某顏色就變該顏色](./RGB_LED/RGB_LED_Change_Color.html)
+## [三色 LED 調色盤](./RGB_LED/RGB_LED_Change_Color.html)
 
 ```javascript
 var rgbled;
@@ -266,7 +273,7 @@ boardReady({device: 'wa8w'}, board => {
 
 ---
 
-## [點擊按鈕變顏色](./RGB_LED/RGB_LED_Click_Button_Change_Color.html)
+## [點擊按鈕改變 三色 LED 顏色](./RGB_LED/RGB_LED_Click_Button_Change_Color.html)
 
 ```javascript
 var rgbled;
@@ -296,7 +303,7 @@ function changeColor(btn, color) {
 
 ---
 
-## [利用拉霸調整顏色](./RGB_LED/RGB_LED_SliderBar_Change_Color.html)
+## [利用拉霸調整 三色 LED 顏色](./RGB_LED/RGB_LED_SliderBar_Change_Color.html)
 
 ```javascript
 var rgbled;
@@ -328,7 +335,7 @@ function changeColor(e) {
 
 ---
 
-## [七彩霓虹燈 - 利用時間改變三色 LED 燈顏色](./RGB_LED/RGB_LED_Colorful_Neon_lighting.html)
+## [七彩霓虹燈 - 利用時間改變 三色 LED 燈 顏色](./RGB_LED/RGB_LED_Colorful_Neon_lighting.html)
 
 ```javascript
 var rgbled, timer, time = 300;
@@ -342,11 +349,11 @@ boardReady({device: 'wa8w'}, board => {
     light.setAttribute("class","off");
     light.addEventListener("click", () => {
         if (light.getAttribute("class") == "off") {
-            light.setAttribute("class", "on");
+            light.className = "on";
             rgbled.setColor('#000');
             repeat();
         } else {
-            light.setAttribute("class", "off");
+            light.className = "off";
             rgbled.setColor('#000');
             clearTimeout(timer);
         }
@@ -370,15 +377,17 @@ function repeat() {
 
 ---
 
-# [三色 LED (RGB LED) & 超音波 (Ultrasonic HC-SRO4+)](./RGB_LED&Ultrasonic_(HC-SRO4%2B))
+# [三色 LED (RGB LED) & 超音波傳感器 (Ultrasonic Sensor, HC-SRO4+)](./RGB_LED&Ultrasonic_(HC-SRO4%2B))
+
+[Webduino 官方教學範例 - 利用超音波改變 三色 LED 燈 顏色](https://webduino.io/tutorials/tutorial-08-ultrasonic-rgbled.html)
 
 ## 接線
-- 三色LED
+- 三色LED (RGB LED)
     - V：3.3V
     - R：10
     - B：6
     - G：9
-- 超音波
+- 超音波傳感器 (Ultrasonic Sensor, HC-SRO4+)
     - VCC：5V
     - Trig：7
     - Echo：8
@@ -391,7 +400,7 @@ function repeat() {
 <a href="./image/RGB_LED&HC-SRO4+_5.jpg" target="_blank"><img src="./image/RGB_LED&HC-SRO4+_5.jpg" width="300"></a>
 <a href="./image/RGB_LED&HC-SRO4+_4.jpg" target="_blank"><img src="./image/RGB_LED&HC-SRO4+_4.jpg" width="300"></a>
 
-## [利用超音波改變三色 LED 燈顏色](./RGB_LED&Ultrasonic_(HC-SRO4%2B)/Ultrasonic_Change_RGB_LED_Color.html)
+## [利用超音波改變 三色 LED 燈 顏色](./RGB_LED&Ultrasonic_(HC-SRO4%2B)/Ultrasonic_Change_RGB_LED_Color.html)
 
 ```javascript
 var rgbled, ultrasonic, i = 0;
@@ -429,10 +438,10 @@ boardReady({device: 'kzpV'}, board => {
 ## 接線
 利用麵包板中間斷路的設計，將按鈕開關各邊的兩腳橫跨兩邊，才能讓四腳都通路，然後再用電阻連接 GND (為了避免有短路的可能發生，所以要接一顆電阻進行保護)
 
-- 按鈕
+- 按鈕開關 (Button)
     - 3.3V
     - 11
-    - 按鈕 → 電阻 → GND
+    - 按鈕開關 → 電阻 → GND
 
 ## 實際接線照片
 <a href="./image/Button_1.jpg" target="_blank"><img src="./image/Button_1.jpg" width="300"></a>
@@ -441,7 +450,7 @@ boardReady({device: 'kzpV'}, board => {
 <a href="./image/Button_4.jpg" target="_blank"><img src="./image/Button_4.jpg" width="300"></a>
 <a href="./image/Button_5.jpg" target="_blank"><img src="./image/Button_5.jpg" width="300"></a>
 
-## [監聽按鈕動作 (按下、按住、長按)](./Button/Listen_Button_Action.html)
+## [監聽按鈕動作 (按下、放開、長按)](./Button/Listen_Button_Action.html)
 
 ```javascript
 var button;
@@ -549,7 +558,6 @@ function stop() {
 [Webduino 官方教學範例 - 人體紅外線偵測傳感器 控制 LED](https://webduino.io/tutorials/tutorial-15-pir-led.html)
 
 ## 接線
-
 - 人體紅外線偵測傳感器 (PIR sensor)
     - GND：GND
     - OUT：11
@@ -578,12 +586,47 @@ boardReady({device: 'wa8w'}, board => {
     led = getLed(board, 10);
     led.off();
     pir.on("detected", () => {
-        light.setAttribute("class", "on");
+        light.className = "on";
         led.on();
     });
     pir.on("ended", () => {
-        light.setAttribute("class", "off");
+        light.className = "off";
         led.off();
     });
+});
+```
+
+---
+
+# [溫濕度傳感器 (Humidity and Temperature Sensor, DHT11)](./Humidity_Temperature_(DHT11))
+<a href="./image/DHT11.jpg" target="_blank"><img src="./image/DHT11.jpg" width="280"></a>
+
+Webduino 官方教學範例
+- [溫濕度傳感器](https://webduino.io/tutorials/tutorial-10-temperature-humidity-sensor.html)
+- [使用 Firebase 資料庫記錄溫濕度](https://webduino.io/tutorials/tutorial-29-firebase-dht.html)
+
+## 接線
+- VCC：3.3V
+- DATA：11
+- GND：GND
+
+## 實際接線照片
+<a href="./image/DHT11_1.jpg" target="_blank"><img src="./image/DHT11_1.jpg" width="300"></a>
+<a href="./image/DHT11_2.jpg" target="_blank"><img src="./image/DHT11_2.jpg" width="300"></a>
+<a href="./image/DHT11_3.jpg" target="_blank"><img src="./image/DHT11_3.jpg" width="300"></a>
+
+## [顯示溫度、濕度](./Humidity_Temperature_(DHT11)/Humidity_Temperature.html)
+
+```javascript
+var dht;
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    dht = getDht(board, 11);
+    dht.read(evt => {
+        document.getElementById("temperature").innerHTML = dht.temperature;
+        document.getElementById("humidity").innerHTML = dht.humidity;
+    }, 1000);
 });
 ```

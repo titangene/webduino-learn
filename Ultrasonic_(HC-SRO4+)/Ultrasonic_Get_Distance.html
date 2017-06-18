@@ -3,32 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>LED bright</title>
+<title>Ultrasonic Get Distance</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
 <script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
-<style>
-#light img {height: 200px; display: none;}
-#light.off #light_off, #light.on #light_on {display: inline-block;}
-</style>
 </head>
 
 <body>
-<div id="light" class="off">
-    <img src="../image/light-off.jpg" id="light_off">
-    <img src="../image/light-on.jpg" id="light_on">
-</div>
+<h1><span id="show">0</span> cm</h1>
 
 <script>
-var led;
+var ultrasonic;
 
-boardReady({device: 'wa8w'}, board => {
+boardReady({device: 'kzpV'}, board => {
     board.systemReset();
     board.samplingInterval = 250;
-    led = getLed(board, 10);
-    led.on();
-    document.getElementById("light").className = "on";
+    ultrasonic = getUltrasonic(board, 11, 10);
+    ultrasonic.ping(cm => {
+        console.log(ultrasonic.distance);
+        document.getElementById("show").innerHTML = ultrasonic.distance;
+    }, 500);
 });
 </script>
 </body>

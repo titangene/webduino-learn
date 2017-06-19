@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Humidity and Temperature - Google Charts</title>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<style>
+#show {
+  font-size: 30px;
+  line-height: 40px;
+}
+
+#show b {
+  display: inline-block;
+  font-size: 14px;
+  vertical-align: top;
+  margin-top: -10px;
+}
+</style>
+</head>
+
+<body>
+<div id="show">
+    <h2>溫度：<span id="temperature">0</span> ℃</h2>
+    <h2>濕度：<span id="humidity">0</span> %</h2>
+    <div id="chart_div" style="width: 100%; height: 400px;"></div>
+</div>
+
+<script>
+var dht;
+var chart_div = document.getElementById("chart_div");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    dht = getDht(board, 11);
+
+    var areachart = {
+        areachart: false,
+        origin: [["時間", "溫度 (℃)", "濕度 (%)"]]
+    };
+
+    google.load("visualization", "1", {
+        packages: ["corechart"],
+        callback: () => areachart.areachart = true
+    });
+    
+    dht.read(evt => {
+        document.getElementById("temperature").innerHTML = dht.temperature;
+        document.getElementById("humidity").innerHTML =  dht.humidity;
+        var time = new Date();
+        var ts = time.getSeconds();
+        var tm = time.getMinutes();
+        var th = time.getHours();
+        var a = [];
+        if (areachart.areachart) {
+            chart_div.style.display = "block";
+            a[0] = th + ":" + tm + ":" + ts;
+            a[1] = dht.temperature;
+            a[2] = dht.humidity;
+            areachart.origin.push(a);
+            drawAreaChart(areachart.origin);
+        }
+        if (areachart.gauge) {
+            chart_div.style.display = "none";
+            areachart.origin1 = [["Label", "Value"], ["humidity", humidity]];
+            areachart.origin2 = [["Label", "Value"], ["temperature", temperature]];
+            drawGuage(areachart.origin1, areachart.origin2);
+        }
+    }, 1000);
+});
+
+function drawAreaChart(d) {
+    if (!Array.isArray(d)) return;
+    var titleTextStyle = {
+        fontName: "微軟正黑體",
+        bold: true,
+        italic: false
+    };
+    var data = google.visualization.arrayToDataTable(d);
+    var options = {
+        title: "",
+        hAxis: {title: "時間", titleTextStyle: titleTextStyle},
+        vAxis: {title: "溫濕度", minValue: 0, titleTextStyle: titleTextStyle},
+        chartArea: {top: 50, left: 50, width: "70%", height: "70%"},
+        colors: ['#f00', '#00f']
+    };
+    var code = new google.visualization.AreaChart(chart_div);
+    return code.draw(data, options);
+}
+</script>
+</body>

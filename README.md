@@ -196,7 +196,7 @@ Webduino 官方教學範例
 <a href="./image/HC-SRO4+_1.jpg" target="_blank"><img src="./image/HC-SRO4+_1.jpg" width="300"></a>
 <a href="./image/HC-SRO4+_2.jpg" target="_blank"><img src="./image/HC-SRO4+_2.jpg" width="300"></a>
 
-## [超音波 顯示 擷取距離](./Ultrasonic_(HC-SRO4%2B)/Get_Distance.html)
+## [超音波 顯示 擷取距離](./Ultrasonic_(HC-SRO4%2B)/Ultrasonic_Get_Distance.html)
 
 ```javascript
 var ultrasonic;
@@ -212,7 +212,7 @@ boardReady({device: 'kzpV'}, board => {
 });
 ```
 
-## [利用 超音波 擷取距離 縮放圖片大小](./Ultrasonic_(HC-SRO4%2B)/Get_Distance_Zoom_Picture.html)
+## [利用 超音波 擷取距離 縮放圖片大小](./Ultrasonic_(HC-SRO4%2B)/Ultrasonic_Get_Distance_Zoom_Picture.html)
 
 ```javascript
 var ultrasonic;
@@ -607,7 +607,8 @@ Webduino 官方教學範例
 
 ## 接線
 - VCC：3.3V
-- DATA：11
+- Data：11
+- N/C：沒有作用
 - GND：GND
 
 ## 實際接線照片
@@ -630,3 +631,74 @@ boardReady({device: 'wa8w'}, board => {
     }, 1000);
 });
 ```
+
+---
+
+## [利用 Google Charts 繪製溫濕度圖表](./Humidity_Temperature_(DHT11)/Humidity_Temperature-Google_Charts.html)
+
+```javascript
+var dht;
+var chart_div = document.getElementById("chart_div");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    dht = getDht(board, 11);
+
+    var areachart = {
+        areachart: false,
+        origin: [["時間", "溫度 (℃)", "濕度 (%)"]]
+    };
+
+    google.load("visualization", "1", {
+        packages: ["corechart"],
+        callback: () => areachart.areachart = true
+    });
+    
+    dht.read(evt => {
+        document.getElementById("temperature").innerHTML = dht.temperature;
+        document.getElementById("humidity").innerHTML =  dht.humidity;
+        var time = new Date();
+        var ts = time.getSeconds();
+        var tm = time.getMinutes();
+        var th = time.getHours();
+        var a = [];
+        if (areachart.areachart) {
+            chart_div.style.display = "block";
+            a[0] = th + ":" + tm + ":" + ts;
+            a[1] = dht.temperature;
+            a[2] = dht.humidity;
+            areachart.origin.push(a);
+            drawAreaChart(areachart.origin);
+        }
+        if (areachart.gauge) {
+            chart_div.style.display = "none";
+            areachart.origin1 = [["Label", "Value"], ["humidity", humidity]];
+            areachart.origin2 = [["Label", "Value"], ["temperature", temperature]];
+            drawGuage(areachart.origin1, areachart.origin2);
+        }
+    }, 1000);
+});
+
+function drawAreaChart(d) {
+    if (!Array.isArray(d)) return;
+    var titleTextStyle = {
+        fontName: "微軟正黑體",
+        bold: true,
+        italic: false
+    };
+    var data = google.visualization.arrayToDataTable(d);
+    var options = {
+        title: "",
+        hAxis: {title: "時間", titleTextStyle: titleTextStyle},
+        vAxis: {title: "溫濕度", minValue: 0, titleTextStyle: titleTextStyle},
+        chartArea: {top: 50, left: 50, width: "70%", height: "70%"},
+        colors: ['#f00', '#00f']
+    };
+    var code = new google.visualization.AreaChart(chart_div);
+    return code.draw(data, options);
+}
+```
+
+### Demo
+<a href="./image/Humidity_Temperature-Google_Charts.png" target="_blank"><img src="./image/Humidity_Temperature-Google_Charts.png"></a>

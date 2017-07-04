@@ -106,7 +106,8 @@ boardReady({device: 'wa8w'}, board => {
 });
 ```
 
-### Demo
+Demo：
+
 <a href="./image/Click_Switch_Yellow-Red_LED_2.gif" target="_blank"><img src="./image/Click_Switch_Yellow-Red_LED_2.gif" width="300"></a>
 
 ---
@@ -169,7 +170,8 @@ async function Traffic_Light() {
 }
 ```
 
-### Demo
+Demo：
+
 <a href="./image/Auto_Switch_Yellow-Red_LED_3.jpg" target="_blank"><img src="./image/Auto_Switch_Yellow-Red_LED_3.jpg" width="300"></a>
 
 ---
@@ -268,7 +270,8 @@ boardReady({device: 'wa8w'}, board => {
 });
 ```
 
-### Demo
+Demo：
+
 <a href="./image/RGB_LED_Change_Color.png" target="_blank"><img src="./image/RGB_LED_Change_Color.png"></a>
 
 ---
@@ -298,7 +301,8 @@ function changeColor(btn, color) {
 }
 ```
 
-### Demo
+Demo：
+
 <a href="./image/RGB_LED_Click_Button_Change_Color.png" target="_blank"><img src="./image/RGB_LED_Click_Button_Change_Color.png"></a>
 
 ---
@@ -330,7 +334,8 @@ function changeColor(e) {
 }
 ```
 
-### Demo
+Demo：
+
 <a href="./image/RGB_LED_SliderBar_Change_Color.png" target="_blank"><img src="./image/RGB_LED_SliderBar_Change_Color.png"></a>
 
 ---
@@ -546,7 +551,8 @@ function stop() {
 }
 ```
 
-### Demo
+Demo：
+
 <a href="./image/Press_Button_Race_Run.png" target="_blank"><img src="./image/Press_Button_Race_Run.png"></a>
 
 ---
@@ -700,5 +706,98 @@ function drawAreaChart(d) {
 }
 ```
 
-### Demo
+Demo：
+
 <a href="./image/Humidity_Temperature-Google_Charts.png" target="_blank"><img src="./image/Humidity_Temperature-Google_Charts.png"></a>
+
+---
+
+## [利用 Google Charts 繪製溫濕度指針](./Humidity_Temperature_(DHT11)/Humidity_Temperature-Pointer.html)
+
+```javascript
+var dht;
+var gauge;
+var chart_div = document.getElementById("chart_div");
+var chart_div1 = document.getElementById("chart_div1");
+var chart_div2 = document.getElementById("chart_div2");
+var temperature = document.getElementById("temperature");
+var humidity = document.getElementById("humidity");
+
+boardReady({device: 'wa8w'}, function (board) {
+    board.systemReset();
+    board.samplingInterval = 20;
+    dht = getDht(board, 11);
+
+    var gauge = {
+        guage: false,
+        origin1: [
+            ["Label", "Value"], ["humidity", 55]
+        ],
+        origin2: [
+            ["Label", "Value"], ["temperature", 30]
+        ]
+    };
+    google.load("visualization", "1", {
+        packages: ["gauge"],
+        callback: () => gauge.gauge = true
+    });
+    
+    dht.read(evt => {
+        temperature.innerHTML = dht.temperature;
+        humidity.innerHTML =  dht.humidity;
+        var time = new Date();
+        var ts = time.getSeconds();
+        var tm = time.getMinutes();
+        var th = time.getHours();
+        var a = [];
+        if (gauge.areachart) {
+            chart_div.style.display="block";
+            chart_div1.style.display="none";
+            chart_div2.style.display="none";
+            a[0] = th + ":" + tm + ":" + ts;
+            a[1] = dht.temperature;
+            a[2] = dht.humidity;
+            gauge.origin.push(a);
+            drawAreaChart(gauge.origin);
+        }
+        if (gauge.gauge) {
+            chart_div.style.display="none";
+            chart_div1.style.display="inline-block";
+            chart_div2.style.display="inline-block";
+            gauge.origin1 = [["Label", "Value"],["humidity", dht.humidity]];
+            gauge.origin2 = [["Label", "Value"],["temperature", dht.temperature]];
+            drawGuage(gauge.origin1,gauge.origin2);
+        }
+    }, 1000);
+});
+
+function drawGuage(d1,d2) {
+    if (!Array.isArray(d1) || !Array.isArray(d2))
+        return;
+    var data1 = google.visualization.arrayToDataTable(d1);
+    var data2 = google.visualization.arrayToDataTable(d2);
+    var options1 = {
+        width: 400, height: 200,
+        redFrom: 90, redTo: 100,
+        yellowFrom:75, yellowTo: 90,
+        minorTicks: 5,
+        redColor:"#00f", yellowColor:"#9cf",
+        animation:{easing:"in"}
+    };
+    var options2 = {
+        width: 400, height: 200,
+        redFrom: 90, redTo: 100,
+        yellowFrom:75, yellowTo: 90,
+        minorTicks: 5,
+        animation:{easing:"in"}
+    };
+    var chart1 = new google.visualization.Gauge(chart_div1);
+    chart1.draw(data1, options1);
+    var chart2 = new google.visualization.Gauge(chart_div2);
+    chart2.draw(data2, options2);
+}
+```
+
+Demo：
+
+<a href="./image/Humidity_Temperature-Pointer.png" target="_blank"><img src="./image/Humidity_Temperature-Pointer.png"></a>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Buzzer - Fur Elise</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+</head>
+
+<body>
+<h1>嗡鳴器發出「獻給愛麗絲」</h1>
+
+<script>
+var buzzer;
+// 獻給愛麗絲
+var music = [
+    {notes:"E4",tempos:"6"}, {notes:"DS4",tempos:"6"}, {notes:"E4",tempos:"4"}, {notes:"DS4",tempos:"4"},
+    {notes:"E4",tempos:"4"}, {notes:"B3",tempos:"4"}, {notes:"D4",tempos:"4"}, {notes:"C4",tempos:"4"},
+    {notes:"A3",tempos:"4"}, {notes:"0",tempos:"4"}, {notes:"C3",tempos:"6"}, {notes:"E3",tempos:"6"},
+    {notes:"A3",tempos:"6"}, {notes:"B3",tempos:"4"}, {notes:"0",tempos:"4"}, {notes:"D3",tempos:"6"},
+    {notes:"GS3",tempos:"6"}, {notes:"B3",tempos:"6"}, {notes:"C4",tempos:"4"}
+];
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    buzzer = getBuzzer(board, 11);
+    buzzer.play(buzzer_music(music).notes ,buzzer_music(music).tempos);
+});
+
+function buzzer_music(m) {
+    var musicNotes = { notes: [], tempos: [] };
+    if (m[0].notes.length > 1) {
+        for (var i = 0; i < m.length; i++) {
+            if (Array.isArray(m[i].notes))
+                musicNotes.notes = musicNotes.notes.concat(m[i].notes);
+            else
+                musicNotes.notes.push(m[i].notes);
+            if (Array.isArray(m[i].tempos))
+                musicNotes.tempos = musicNotes.tempos.concat(m[i].tempos);
+            else
+                musicNotes.tempos.push(m[i].tempos);
+        }
+    } else {
+        musicNotes.notes = [m[0].notes];
+        musicNotes.tempos = [m[0].tempos];
+    }
+    return musicNotes;
+}
+</script>
+</body>

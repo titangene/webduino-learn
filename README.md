@@ -801,3 +801,55 @@ function drawGuage(d1,d2) {
 Demo：
 
 <a href="./image/Humidity_Temperature-Pointer.png" target="_blank"><img src="./image/Humidity_Temperature-Pointer.png"></a>
+
+---
+
+# [蜂鳴器 (Buzzer)](./Buzzer)
+<a href="./image/Buzzer.png" target="_blank"><img src="./image/Buzzer.png" width="200"></a>
+
+[Webduino 官方教學範例 - 蜂鳴器](https://webduino.io/tutorials/tutorial-13-buzzer.html)
+
+## 接線
+- 正極：11
+- 負極：GND
+
+## [嗡鳴器發出「獻給愛麗絲」](./Buzzer/Buzzer-Fur_Elise.html)
+
+```javascript
+var buzzer;
+// 獻給愛麗絲
+var music = [
+    {notes:"E4",tempos:"6"}, {notes:"DS4",tempos:"6"}, {notes:"E4",tempos:"4"}, {notes:"DS4",tempos:"4"},
+    {notes:"E4",tempos:"4"}, {notes:"B3",tempos:"4"}, {notes:"D4",tempos:"4"}, {notes:"C4",tempos:"4"},
+    {notes:"A3",tempos:"4"}, {notes:"0",tempos:"4"}, {notes:"C3",tempos:"6"}, {notes:"E3",tempos:"6"},
+    {notes:"A3",tempos:"6"}, {notes:"B3",tempos:"4"}, {notes:"0",tempos:"4"}, {notes:"D3",tempos:"6"},
+    {notes:"GS3",tempos:"6"}, {notes:"B3",tempos:"6"}, {notes:"C4",tempos:"4"}
+];
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    buzzer = getBuzzer(board, 11);
+    buzzer.play(buzzer_music(music).notes ,buzzer_music(music).tempos);
+});
+
+function buzzer_music(m) {
+    var musicNotes = { notes: [], tempos: [] };
+    if (m[0].notes.length > 1) {
+        for (var i = 0; i < m.length; i++) {
+            if (Array.isArray(m[i].notes))
+                musicNotes.notes = musicNotes.notes.concat(m[i].notes);
+            else
+                musicNotes.notes.push(m[i].notes);
+            if (Array.isArray(m[i].tempos))
+                musicNotes.tempos = musicNotes.tempos.concat(m[i].tempos);
+            else
+                musicNotes.tempos.push(m[i].tempos);
+        }
+    } else {
+        musicNotes.notes = [m[0].notes];
+        musicNotes.tempos = [m[0].tempos];
+    }
+    return musicNotes;
+}
+```

@@ -22,9 +22,7 @@ boardReady({device: 'wa8w'}, board => {
     board.samplingInterval = 20;
     sound = getSound(board, 10);
     sound.on("detected", () => demo.innerHTML = "有聲音");
-    sound.on("ended", 
-        () => setTimeout(() => setTimeout(
-            () => demo.innerHTML = "沒聲音", 1000), 300));
+    sound.on("ended", () => demo.innerHTML = "沒聲音");
 });
 </script>
 </body>

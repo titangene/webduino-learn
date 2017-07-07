@@ -2,14 +2,34 @@
 
 # 目錄
 - [LED](#LED)
+    - [燈泡圖片亮 & LED 燈亮](#燈泡圖片亮--led-燈亮)
+    - [點擊燈泡圖片切換 LED 燈開關](#點擊燈泡圖片切換-led-燈開關)
+    - [黃亮紅不亮，黃不亮紅亮 切換](#黃亮紅不亮黃不亮紅亮-切換)
+    - [紅綠燈](#紅綠燈)
 - [超音波傳感器 (Ultrasonic Sensor, HC-SRO4+)](#超音波傳感器-ultrasonic-sensor-hc-sro4)
+    - [超音波 顯示 擷取距離](#超音波-顯示-擷取距離)
+    - [利用 超音波 擷取距離 縮放圖片大小](#利用-超音波-擷取距離-縮放圖片大小)
 - [三色 LED (RGB LED)](#三色-led-rgb-led)
+    - [三色 LED 調色盤](#三色-led-調色盤)
+    - [點擊按鈕改變 三色 LED 顏色](#點擊按鈕改變-三色-led-顏色)
+    - [利用拉霸調整 三色 LED 顏色](#利用拉霸調整-三色-led-顏色)
+    - [七彩霓虹燈 - 利用時間改變 三色 LED 燈 顏色](#七彩霓虹燈---利用時間改變-三色-led-燈-顏色)
 - [三色 LED (RGB LED) & 超音波傳感器 (Ultrasonic Sensor, HC-SRO4+)](#三色-led-rgb-led--超音波傳感器-ultrasonic-sensor-hc-sro4)
+    - [利用超音波改變 三色 LED 燈 顏色](#利用超音波改變-三色-led-燈-顏色)
 - [按鈕開關 (Button)](#按鈕開關-button)
+    - [監聽按鈕動作 (按下、放開、長按)](#監聽按鈕動作-按下放開長按)
+    - [按鈕 按下 + 1、按住 歸 0](#按鈕-按下--1按住-歸-0)
+    - [按按鈕 比賽跑](#按按鈕-比賽跑)
 - [人體紅外線偵測傳感器 (PIR sensor, Passive infrared sensor) & LED](#人體紅外線偵測傳感器-pir-sensor-passive-infrared-sensor--led)
+    - [人體紅外線偵測傳感器 控制 LED](#人體紅外線偵測傳感器-控制-led)
 - [溫濕度傳感器 (Humidity and Temperature Sensor, DHT11)](#溫濕度傳感器-humidity-and-temperature-sensor-dht11)
+    - [顯示溫度、濕度](#顯示溫度濕度)
+    - [利用 Google Charts 繪製溫濕度圖表](#利用-google-charts-繪製溫濕度圖表)
+    - [利用 Google Charts 繪製溫濕度指針](#利用-google-charts-繪製溫濕度指針)
 - [蜂鳴器 (Buzzer)](#蜂鳴器-buzzer)
+    - [嗡鳴器發出「獻給愛麗絲」](#嗡鳴器發出獻給愛麗絲)
 - [聲音偵測傳感器 (Sound Detector Sensor)](#聲音偵測傳感器-sound-detector-sensor)
+    - [聲音偵測傳感器 偵測是否有聲音](#嗡鳴器發出獻給愛麗絲)
 
 # [LED](./LED)
 <a href="./image/LED.jpg" target="_blank"><img src="./image/LED.jpg" width="300"></a>
@@ -891,8 +911,6 @@ boardReady({device: 'wa8w'}, board => {
     board.samplingInterval = 20;
     sound = getSound(board, 10);
     sound.on("detected", () => demo.innerHTML = "有聲音");
-    sound.on("ended", 
-        () => setTimeout(() => setTimeout(
-            () => demo.innerHTML = "沒聲音", 1000), 300));
+    sound.on("ended", () => demo.innerHTML = "沒聲音");
 });
 ```

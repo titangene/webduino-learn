@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Sound Detector Sensor - Has Sound</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+</head>
+
+<body>
+<h1 id="demo">123</h1>
+
+<script>
+var sound;
+var demo = document.getElementById("demo");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    sound = getSound(board, 10);
+    sound.on("detected", () => demo.innerHTML = "有聲音");
+    sound.on("ended", 
+        () => setTimeout(() => setTimeout(
+            () => demo.innerHTML = "沒聲音", 1000), 300));
+});
+</script>
+</body>

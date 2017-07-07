@@ -9,6 +9,7 @@
 - [人體紅外線偵測傳感器 (PIR sensor, Passive infrared sensor) & LED](#人體紅外線偵測傳感器-pir-sensor-passive-infrared-sensor--led)
 - [溫濕度傳感器 (Humidity and Temperature Sensor, DHT11)](#溫濕度傳感器-humidity-and-temperature-sensor-dht11)
 - [蜂鳴器 (Buzzer)](#蜂鳴器-buzzer)
+- [聲音偵測傳感器 (Sound Detector Sensor)](#聲音偵測傳感器-sound-detector-sensor)
 
 # [LED](./LED)
 <a href="./image/LED.jpg" target="_blank"><img src="./image/LED.jpg" width="300"></a>
@@ -863,4 +864,35 @@ function buzzer_music(m) {
     }
     return musicNotes;
 }
+```
+
+---
+
+# [聲音偵測傳感器 (Sound Detector Sensor)](./Sound_Detector_Sensor)
+<a href="./image/Sound_Detector_Sensor_1.jpg" target="_blank"><img src="./image/Sound_Detector_Sensor_1.jpg" height="140"></a> <a href="./image/Sound_Detector_Sensor_2.jpg" target="_blank"><img src="./image/Sound_Detector_Sensor_2.jpg" height="140"></a>
+
+主要用於偵測是否有聲音，在聲音偵測傳感器上有一個十字旋鈕，可用螺絲起子自行調整零敏度
+
+[Webduino 官方教學範例 - 聲音偵測傳感器](https://webduino.io/tutorials/tutorial-12-sound-sensor.html)
+
+## 接線
+- GND：GND
+- OUT：10
+- 5V：5V
+
+## [聲音偵測傳感器 偵測是否有聲音](./Sound_Detector_Sensor/Sound_Detector_Sensor-Has_Sound.html)
+
+```javascript
+var sound;
+var demo = document.getElementById("demo");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    sound = getSound(board, 10);
+    sound.on("detected", () => demo.innerHTML = "有聲音");
+    sound.on("ended", 
+        () => setTimeout(() => setTimeout(
+            () => demo.innerHTML = "沒聲音", 1000), 300));
+});
 ```

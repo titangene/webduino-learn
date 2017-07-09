@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Humidity and Temperature - Firebase</title>
+<script src="https://blockly.webduino.io/lib/firebase.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+</head>
+
+<body>
+<h1>溫度：<span id="temperature">0</span> ℃</h1>
+<h1>濕度：<span id="humidity">0</span> %</h1>
+
+<script>
+var dht, myFirebase;
+var temperature = document.getElementById("temperature");
+var humidity = document.getElementById("humidity");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    dht = getDht(board, 10);
+    myFirebase = new Firebase("https://<Your-firebase>.firebaseio.com/");
+    dht.read(evt => {
+        temperature.innerHTML = dht.temperature;
+        humidity.innerHTML = dht.humidity;
+        myFirebase.push({
+            date: get_date(),
+            time: get_time(),
+            temperature: dht.temperature,
+            humidity: dht.humidity
+        });
+    }, 1000);
+});
+
+function get_date() {
+    var nowDay = new Date(),
+        nowYear = nowDay.getFullYear(),
+        nowMonth = nowDay.getMonth() + 1,
+        nowDate = nowDay.getDate();
+    return nowYear + "/" + nowMonth + "/" + nowDate;
+}
+  
+function get_time() {
+    var nowTime = new Date(),
+        nowHours = nowTime.getHours(),
+        nowMinutes = nowTime.getMinutes(),
+        nowSeconds = nowTime.getSeconds();
+    return nowHours + ":" + nowMinutes + ":" + nowSeconds;
+}
+</script>
+</body>

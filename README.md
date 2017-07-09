@@ -26,6 +26,7 @@
     - [顯示溫度、濕度](#顯示溫度濕度)
     - [利用 Google Charts 繪製溫濕度圖表](#利用-google-charts-繪製溫濕度圖表)
     - [利用 Google Charts 繪製溫濕度指針](#利用-google-charts-繪製溫濕度指針)
+    - [利用 Firebase 記錄溫濕度](#利用-Firebase-記錄溫濕度)
 - [蜂鳴器 (Buzzer)](#蜂鳴器-buzzer)
     - [嗡鳴器發出「獻給愛麗絲」](#嗡鳴器發出獻給愛麗絲)
 - [聲音偵測傳感器 (Sound Detector Sensor)](#聲音偵測傳感器-sound-detector-sensor)
@@ -833,6 +834,50 @@ function drawGuage(d1,d2) {
 Demo：
 
 <a href="./image/Humidity_Temperature-Pointer.png" target="_blank"><img src="./image/Humidity_Temperature-Pointer.png"></a>
+
+
+## [利用 Firebase 記錄溫濕度](./Humidity_Temperature_(DHT11)/Humidity_Temperature-Firebase.html)
+
+[詳細教學說明](./Humidity_Temperature_(DHT11)/Humidity_Temperature-Firebase-README.md)
+
+```javascript
+var dht, myFirebase;
+var temperature = document.getElementById("temperature");
+var humidity = document.getElementById("humidity");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    dht = getDht(board, 10);
+    myFirebase = new Firebase("https://<Your-firebase>.firebaseio.com/");
+    dht.read(evt => {
+        temperature.innerHTML = dht.temperature;
+        humidity.innerHTML = dht.humidity;
+        myFirebase.push({
+            date: get_date(),
+            time: get_time(),
+            temperature: dht.temperature,
+            humidity: dht.humidity
+        });
+    }, 1000);
+});
+
+function get_date() {
+    var nowDay = new Date(),
+        nowYear = nowDay.getFullYear(),
+        nowMonth = nowDay.getMonth() + 1,
+        nowDate = nowDay.getDate();
+    return nowYear + "/" + nowMonth + "/" + nowDate;
+}
+  
+function get_time() {
+    var nowTime = new Date(),
+        nowHours = nowTime.getHours(),
+        nowMinutes = nowTime.getMinutes(),
+        nowSeconds = nowTime.getSeconds();
+    return nowHours + ":" + nowMinutes + ":" + nowSeconds;
+}
+```
 
 ---
 

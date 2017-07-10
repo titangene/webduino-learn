@@ -26,11 +26,15 @@
     - [顯示溫度、濕度](#顯示溫度濕度)
     - [利用 Google Charts 繪製溫濕度圖表](#利用-google-charts-繪製溫濕度圖表)
     - [利用 Google Charts 繪製溫濕度指針](#利用-google-charts-繪製溫濕度指針)
-    - [利用 Firebase 記錄溫濕度](#利用-Firebase-記錄溫濕度)
+    - [利用 Firebase 記錄溫濕度](#利用-firebase-記錄溫濕度)
 - [蜂鳴器 (Buzzer)](#蜂鳴器-buzzer)
     - [嗡鳴器發出「獻給愛麗絲」](#嗡鳴器發出獻給愛麗絲)
 - [聲音偵測傳感器 (Sound Detector Sensor)](#聲音偵測傳感器-sound-detector-sensor)
-    - [聲音偵測傳感器 偵測是否有聲音](#嗡鳴器發出獻給愛麗絲)
+    - [聲音偵測傳感器 偵測是否有聲音](#聲音偵測傳感器-偵測是否有聲音)
+- [伺服馬達 (Servomotor, SG90)](#伺服馬達-servomotor-sg90)
+    - [控制 伺服馬達 轉動角度](#控制-伺服馬達-轉動角度)
+
+---
 
 # [LED](./LED)
 <a href="./image/LED.jpg" target="_blank"><img src="./image/LED.jpg" width="300"></a>
@@ -835,6 +839,7 @@ Demo：
 
 <a href="./image/Humidity_Temperature-Pointer.png" target="_blank"><img src="./image/Humidity_Temperature-Pointer.png"></a>
 
+---
 
 ## [利用 Firebase 記錄溫濕度](./Humidity_Temperature_(DHT11)/Humidity_Temperature-Firebase.html)
 
@@ -849,7 +854,7 @@ boardReady({device: 'kzpV'}, board => {
     board.systemReset();
     board.samplingInterval = 20;
     dht = getDht(board, 10);
-    myFirebase = new Firebase("https://<Your-firebase>.firebaseio.com/");
+    myFirebase = new Firebase("https://<Your-Firebase>.firebaseio.com/");
     dht.read(evt => {
         temperature.innerHTML = dht.temperature;
         humidity.innerHTML = dht.humidity;
@@ -959,3 +964,45 @@ boardReady({device: 'wa8w'}, board => {
     sound.on("ended", () => demo.innerHTML = "沒聲音");
 });
 ```
+
+---
+
+# [伺服馬達 (Servomotor, SG90)](./Servomotor_SG90)
+<a href="./image/SG90.jpg" target="_blank"><img src="./image/SG90.jpg" height="220"></a>
+
+伺服馬達有機械結構上的限制，旋轉角度大約為 180 度，可能是 1 ~ 180 度，也可能是 -5 度到 174 度...等
+
+[Webduino 官方教學範例 - 伺服馬達](https://webduino.io/tutorials/tutorial-16-servo.html)
+
+## 接線
+- 橘：11
+- 紅：5V
+- 棕：GND
+
+## [控制 伺服馬達 轉動角度](./Servomotor_SG90/Servomotor_Turn.html)
+
+```javascript
+var servo;
+var bar = document.getElementById("bar");
+var bar_value = document.getElementById("bar_value");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    servo = getServo(board, 11);
+
+    bar.setAttribute("min",0);
+    bar.setAttribute("max",180);
+    bar.setAttribute("step",5);
+    bar.setAttribute("value",90);
+    bar.oninput = _value => {
+        _value = bar.value;
+        bar_value.innerHTML = _value;
+        servo.angle = _value;
+    };
+});
+```
+
+Demo：
+
+<a href="./image/Servomotor_Turn.png" target="_blank"><img src="./image/Servomotor_Turn.png"></a>

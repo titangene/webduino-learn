@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Servomotor Turn</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<style>
+span {font-size: 20px;}
+</style>
+</head>
+
+<body>
+<span>數值：</span><span id="bar_value">90</span><br>
+<span>拉霸：</span>
+<input type="range" min="0" max="180" step="5" value="90" id="bar">
+
+<script>
+var servo;
+var bar = document.getElementById("bar");
+var bar_value = document.getElementById("bar_value");
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    servo = getServo(board, 11);
+
+    bar.setAttribute("min",0);
+    bar.setAttribute("max",180);
+    bar.setAttribute("step",5);
+    bar.setAttribute("value",90);
+    bar.oninput = _value => {
+        _value = bar.value;
+        bar_value.innerHTML = _value;
+        servo.angle = _value;
+    };
+});
+</script>
+</body>

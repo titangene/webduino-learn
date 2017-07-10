@@ -4,7 +4,7 @@
 ### 新增專案
 <a href="../image/Humidity_Temperature-Firebase_1.png" target="_blank"><img src="../image/Humidity_Temperature-Firebase_1.png"></a>
 
-### 輸入專案名稱、國家 \ 地區
+### 輸入專案名稱、國家 / 地區
 <a href="../image/Humidity_Temperature-Firebase_2.png" target="_blank"><img src="../image/Humidity_Temperature-Firebase_2.png" width="400"></a>
 
 ## 設定 Firebase 規則
@@ -22,7 +22,7 @@
 ```
 <a href="../image/Humidity_Temperature-Firebase_4.png" target="_blank"><img src="../image/Humidity_Temperature-Firebase_4.png" width="600"></a>
 
-先將規則設為公開狀態方便測試，修改後點選 "發佈" (測試完後記得將規則改回 `"auth != null"`)
+先將規則設為公開狀態方便測試，修改後點選「發佈」 (測試完後記得將規則改回 `"auth != null"`)
 ```json
 {
     "rules": {
@@ -44,7 +44,7 @@ boardReady({device: 'kzpV'}, board => {
     board.systemReset();
     board.samplingInterval = 20;
     dht = getDht(board, 10);
-    myFirebase = new Firebase("https://<Your-firebase>.firebaseio.com/");
+    myFirebase = new Firebase("https://<Your-Firebase>.firebaseio.com/");
     dht.read(evt => {
         temperature.innerHTML = dht.temperature;
         humidity.innerHTML = dht.humidity;
@@ -74,5 +74,5 @@ function get_time() {
 }
 ```
 
-Demo：
+## Demo
 <a href="../image/Humidity_Temperature-Firebase_6.png" target="_blank"><img src="../image/Humidity_Temperature-Firebase_6.png"></a>

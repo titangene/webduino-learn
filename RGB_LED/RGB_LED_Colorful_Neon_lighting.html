@@ -31,13 +31,12 @@ boardReady({device: 'wa8w'}, board => {
     rgbled.setColor('#000');
     light.setAttribute("class","off");
     light.addEventListener("click", () => {
+        rgbled.setColor('#000');
         if (light.getAttribute("class") == "off") {
             light.className = "on";
-            rgbled.setColor('#000');
             repeat();
         } else {
             light.className = "off";
-            rgbled.setColor('#000');
             clearTimeout(timer);
         }
     });

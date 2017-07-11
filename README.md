@@ -975,7 +975,7 @@ boardReady({device: 'wa8w'}, board => {
 
 ---
 
-# [伺服馬達 (Servomotor, SG90)](./Servomotor_SG90)
+# [伺服馬達 (Servomotor, SG90)](./Servomotor_(SG90))
 <a href="./image/SG90.jpg" target="_blank"><img src="./image/SG90.jpg" height="220"></a>
 
 伺服馬達有機械結構上的限制，旋轉角度大約為 180 度，可能是 1 ~ 180 度，也可能是 -5 度到 174 度...等
@@ -987,7 +987,7 @@ boardReady({device: 'wa8w'}, board => {
 - 紅：5V
 - 棕：GND
 
-## [控制 伺服馬達 轉動角度](./Servomotor_SG90/Servomotor_Turn.html)
+## [控制 伺服馬達 轉動角度](./Servomotor_(SG90)/Servomotor_Turn.html)
 
 ```javascript
 var servo;

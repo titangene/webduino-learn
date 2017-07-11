@@ -35,6 +35,8 @@
     - [控制 伺服馬達 轉動角度](#控制-伺服馬達-轉動角度)
 - [LED 點矩陣 (8 x 8 LED matrix)](#led-點矩陣-8-x-8-led-matrix)
     - [利用 LED 點矩陣 顯示「XD」](#利用-led-點矩陣-顯示xd)
+- [LED 點矩陣 (8 x 8 LED matrix) & 按鈕開關 (Button)](#led-點矩陣-8-x-8-led-matrix--按鈕開關-button)
+    - [利用 按鈕開關 執行倒數計時，並將時間顯示在 LED 點矩陣 上](#利用-按鈕開關-執行倒數計時並將時間顯示在-led-點矩陣-上)
 
 ---
 
@@ -1016,26 +1018,29 @@ Demo：
 ---
 
 # [LED 點矩陣 (8 x 8 LED matrix)](./8x8_LED_Matrix)
-<a href="./image/SG90.jpg" target="_blank"><img src="./image/SG90.jpg" height="220"></a>
 
-為 8 × 8 的 LED 點矩陣，可用 16 個字元的代碼將 LED 點矩陣排出多種圖形或是文字，而 16 個字元內每 2 個字元為 1 個單位，共有 8 組，透過十六進位與二進位之間的轉換，來表示該亮哪些燈。如果想要快速產生圖形代碼可至官方的「[Webduino LED 點矩陣代碼產生器](https://webduinoio.github.io/demo/max7219/)」
+為 8 × 8 的 LED 點矩陣，可用 16 個字元的代碼將 LED 點矩陣排出多種圖形或是文字
+
+16 個字元內每 2 個字元為 1 個單位，共有 8 組，透過十六進位與二進位之間的轉換，來表示該亮哪些燈
+
+如果想要快速產生圖形代碼可至官方的「[Webduino LED 點矩陣代碼產生器](https://webduinoio.github.io/demo/max7219/)」
 
 - LED 點矩陣全暗的代碼是 16 個 0：0000000000000000
 - LED 點矩陣全亮的代碼是 16 個 f：ffffffffffffffff
 
 [Webduino 官方教學範例 - LED 點矩陣](https://webduino.io/tutorials/tutorial-18-max7219.html)
 
-## [利用 LED 點矩陣 顯示「XD」](./8x8_LED_Matrix/LED_Matrix_XD.html)
-
-### 接線
+## 接線
 - VCC：VCC
 - GND：GND
 - DIN (D in ( Dout ))：2
 - CS (晶片選擇)：3
 - CLK (時脈)：4
 
-### 實際接線照片
-<a href="./image/8x8_LED_Matrix.jpg" target="_blank"><img src="./image/8x8_LED_Matrix.jpg" height="220"></a>
+## 實際接線照片
+<a href="./image/8x8_LED_Matrix.jpg" target="_blank"><img src="./image/8x8_LED_Matrix.jpg" width="600"></a>
+
+## [利用 LED 點矩陣 顯示「XD」](./8x8_LED_Matrix/LED_Matrix-XD.html)
 
 ```javascript
 var matrix;
@@ -1053,3 +1058,72 @@ boardReady({device: 'wa8w'}, board => {
 Demo：
 
 <a href="./image/8x8_LED_Matrix_XD.png" target="_blank"><img src="./image/8x8_LED_Matrix_XD.png" width="160"></a>
+
+---
+
+# [LED 點矩陣 (8 x 8 LED matrix) & 按鈕開關 (Button)](./8x8_LED_Matrix&Button)
+
+## 接線
+- LED 點矩陣 (8 x 8 LED matrix)
+    - VCC：VCC
+    - GND：GND
+    - DIN (D in ( Dout ))：2
+    - CS (晶片選擇)：3
+    - CLK (時脈)：4
+- 按鈕開關 (Button)
+    - 3.3V
+    - 12
+    - 按鈕開關 → 電阻 → GND
+
+## 實際接線照片
+<a href="./image/Button_2.jpg" target="_blank"><img src="./image/Button_2.jpg" width="300"></a>
+<a href="./image/Button_3.jpg" target="_blank"><img src="./image/Button_3.jpg" width="300"></a>
+<a href="./image/8x8_LED_Matrix.jpg" target="_blank"><img src="./image/8x8_LED_Matrix.jpg" width="600"></a>
+
+## [利用 按鈕開關 執行倒數計時，並將時間顯示在 LED 點矩陣 上](./8x8_LED_Matrix&Button/LED_Matrix-Press_Button_Countdown.html)
+
+```javascript
+var matrix;
+var timer = 20;
+var isStartTimer = false;
+// 0, 1, 2, 3, 4, 5, 6 ,7, 8, 9
+var matrixStr = ["7e81817e", "8482ff80", "c6a1918e", "66819966", "1f10ff10", 
+    "4f898971", "7e898971", "07c1310f", "7689916e", "8e91917e"];
+var demo = document.getElementById("demo");
+
+boardReady({device: 'wa8w'}, function (board) {
+    board.systemReset();
+    board.samplingInterval = 20;
+    button = getButton(board, 12);
+    matrix = getMax7219(board, 2, 3, 4);
+    matrix.animateStop();
+    matrix.on("0000000000000000");
+    demo.innerHTML = timer;
+    matrix.on(timerFormat());
+    button.on("pressed", () => countSecond());
+});
+
+function timerFormat() {
+    timer10 = timer < 10 ? 0 : Math.floor(timer / 10);
+    timer1 = timer < 10 ? timer : timer - timer10 * 10;
+    return matrixStr[timer10] + matrixStr[timer1];
+}
+
+function countSecond() {
+    timer -= 1;
+    demo.innerHTML = timer;
+    matrix.on(timerFormat());
+    if (timer <= 0) {
+        matrix.on("316aaaa4a4aa6a31");  // XD
+        setTimeout(() => timer = 30, 3000);
+    } else
+        setTimeout("countSecond()", 1000);
+}
+```
+
+Demo：
+
+<a href="./image/8x8_LED_Matrix_Number.png" target="_blank"><img src="./image/8x8_LED_Matrix_Number.png"></a>
+
+<a href="./image/8x8_LED_Matrix-Press_Button_Countdown.png" target="_blank"><img src="./image/8x8_LED_Matrix-Press_Button_Countdown.png" width="500"></a>
+

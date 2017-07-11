@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>LED Matrix - Press Button Countdown</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+</head>
+
+<body>
+<h1 id="demo">123</h1>
+<script>
+var matrix;
+var timer = 20;
+var isStartTimer = false;
+// 0, 1, 2, 3, 4, 5, 6 ,7, 8, 9
+var matrixStr = ["7e81817e", "8482ff80", "c6a1918e", "66819966", "1f10ff10", 
+    "4f898971", "7e898971", "07c1310f", "7689916e", "8e91917e"];
+var demo = document.getElementById("demo");
+
+boardReady({device: 'wa8w'}, function (board) {
+    board.systemReset();
+    board.samplingInterval = 20;
+    button = getButton(board, 12);
+    matrix = getMax7219(board, 2, 3, 4);
+    matrix.animateStop();
+    matrix.on("0000000000000000");
+    demo.innerHTML = timer;
+    matrix.on(timerFormat());
+    button.on("pressed", () => countSecond());
+});
+
+function timerFormat() {
+    timer10 = timer < 10 ? 0 : Math.floor(timer / 10);
+    timer1 = timer < 10 ? timer : timer - timer10 * 10;
+    return matrixStr[timer10] + matrixStr[timer1];
+}
+
+function countSecond() {
+    timer -= 1;
+    demo.innerHTML = timer;
+    matrix.on(timerFormat());
+    if (timer <= 0) {
+        matrix.on("316aaaa4a4aa6a31");  // XD
+        setTimeout(() => timer = 30, 3000);
+    } else
+        setTimeout("countSecond()", 1000);
+}
+</script>
+</body>

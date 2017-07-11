@@ -33,6 +33,8 @@
     - [聲音偵測傳感器 偵測是否有聲音](#聲音偵測傳感器-偵測是否有聲音)
 - [伺服馬達 (Servomotor, SG90)](#伺服馬達-servomotor-sg90)
     - [控制 伺服馬達 轉動角度](#控制-伺服馬達-轉動角度)
+- [LED 點矩陣 (8 x 8 LED matrix)](#led-點矩陣-8-x-8-led-matrix)
+    - [利用 LED 點矩陣 顯示「XD」](#利用-led-點矩陣-顯示xd)
 
 ---
 
@@ -884,6 +886,10 @@ function get_time() {
 }
 ```
 
+Demo：
+
+<a href="./image/Humidity_Temperature-Firebase_6.png" target="_blank"><img src="./image/Humidity_Temperature-Firebase_6.png"></a>
+
 ---
 
 # [蜂鳴器 (Buzzer)](./Buzzer)
@@ -1006,3 +1012,44 @@ boardReady({device: 'wa8w'}, board => {
 Demo：
 
 <a href="./image/Servomotor_Turn.png" target="_blank"><img src="./image/Servomotor_Turn.png"></a>
+
+---
+
+# [LED 點矩陣 (8 x 8 LED matrix)](./8x8_LED_Matrix)
+<a href="./image/SG90.jpg" target="_blank"><img src="./image/SG90.jpg" height="220"></a>
+
+為 8 × 8 的 LED 點矩陣，可用 16 個字元的代碼將 LED 點矩陣排出多種圖形或是文字，而 16 個字元內每 2 個字元為 1 個單位，共有 8 組，透過十六進位與二進位之間的轉換，來表示該亮哪些燈。如果想要快速產生圖形代碼可至官方的「[Webduino LED 點矩陣代碼產生器](https://webduinoio.github.io/demo/max7219/)」
+
+- LED 點矩陣全暗的代碼是 16 個 0：0000000000000000
+- LED 點矩陣全亮的代碼是 16 個 f：ffffffffffffffff
+
+[Webduino 官方教學範例 - LED 點矩陣](https://webduino.io/tutorials/tutorial-18-max7219.html)
+
+## [利用 LED 點矩陣 顯示「XD」](./8x8_LED_Matrix/LED_Matrix_XD.html)
+
+### 接線
+- VCC：VCC
+- GND：GND
+- DIN (D in ( Dout ))：2
+- CS (晶片選擇)：3
+- CLK (時脈)：4
+
+### 實際接線照片
+<a href="./image/8x8_LED_Matrix.jpg" target="_blank"><img src="./image/8x8_LED_Matrix.jpg" height="220"></a>
+
+```javascript
+var matrix;
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    matrix = getMax7219(board, 2, 3, 4);
+    matrix.animateStop();
+    matrix.on("0000000000000000");
+    matrix.on("316aaaa4a4aa6a31");  // XD
+});
+```
+
+Demo：
+
+<a href="./image/8x8_LED_Matrix_XD.png" target="_blank"><img src="./image/8x8_LED_Matrix_XD.png" width="160"></a>

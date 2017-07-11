@@ -1,4 +1,4 @@
-# [利用 Firebase 記錄溫濕度](./Humidity_Temperature_(DHT11)/Humidity_Temperature-Firebase.html)
+# [利用 Firebase 記錄溫濕度](./Humidity_Temperature-Firebase.html)
 
 ## 新建立 Firebase 專案
 ### 新增專案

@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>LED Matrix - XD</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+</head>
+
+<body>
+<h1>利用 LED 點矩陣 顯示「XD」</h1>
+<script>
+var matrix;
+
+boardReady({device: 'wa8w'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    matrix = getMax7219(board, 2, 3, 4);
+    matrix.animateStop();
+    matrix.on("0000000000000000");
+    matrix.on("316aaaa4a4aa6a31");  // XD
+});
+</script>
+</body>

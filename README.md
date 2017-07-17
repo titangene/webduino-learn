@@ -37,6 +37,8 @@
     - [利用 LED 點矩陣 顯示「XD」](#利用-led-點矩陣-顯示xd)
 - [LED 點矩陣 (8 x 8 LED matrix) & 按鈕開關 (Button)](#led-點矩陣-8-x-8-led-matrix--按鈕開關-button)
     - [利用 按鈕開關 執行倒數計時，並將時間顯示在 LED 點矩陣 上](#利用-按鈕開關-執行倒數計時並將時間顯示在-led-點矩陣-上)
+- [LED 點矩陣 (8 x 8 LED matrix) & 土壤濕度傳感器 (Soil Moisture Sensor)](#led-點矩陣-8-x-8-led-matrix--土壤濕度傳感器-soil-moisture-sensor)
+    - [利用 土壤濕度傳感器 偵測土壤濕度，並將數值顯示在 LED 點矩陣 上](#利用-土壤濕度傳感器-偵測土壤濕度並將數值顯示在-led-點矩陣-上)
 
 ---
 
@@ -1127,3 +1129,51 @@ Demo：
 
 <a href="./image/8x8_LED_Matrix-Press_Button_Countdown.png" target="_blank"><img src="./image/8x8_LED_Matrix-Press_Button_Countdown.png" width="500"></a>
 
+---
+
+# [LED 點矩陣 (8 x 8 LED matrix) & 土壤濕度傳感器 (Soil Moisture Sensor)](./8x8_LED_Matrix&Soil_Moisture_Sensor)
+
+## 接線
+- LED 點矩陣 (8 x 8 LED matrix)
+    - VCC：VCC
+    - GND：GND
+    - DIN (D in ( Dout ))：7
+    - CS (晶片選擇)：8
+    - CLK (時脈)：9
+- 土壤濕度傳感器 (Soil Moisture Sensor)
+    - 正極：VCC
+    - 負極：GND
+    - S：A3 (A：類比訊號)
+
+## 實際接線照片
+<a href="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_1.jpg" target="_blank"><img src="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_1.jpg" width="300"></a>
+<a href="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_2.jpg" target="_blank"><img src="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_2.jpg" width="300"></a>
+<a href="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_3.jpg" target="_blank"><img src="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_3.jpg" width="300"></a>
+<a href="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_4.jpg" target="_blank"><img src="./image/8x8_LED_Matrix-Soil_Moisture_Sensor_4.jpg" width="300"></a>
+
+## [利用 土壤濕度傳感器 偵測土壤濕度，並將數值顯示在 LED 點矩陣 上](./8x8_LED_Matrix&Soil_Moisture_Sensor/LED_Matrix-Soil_Moisture.html)
+
+```javascript
+var soil, matrix, value;
+var demo = document.getElementById("demo");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    soil = getSoil(board, 3);
+    matrix = getMax7219(board, 7, 8, 9);
+    soil.on(val => {
+        soil.detectedVal = val;
+        value = Math.round(soil.detectedVal);
+        demo.innerHTML = value;
+        if (a < 10) {
+            matrix.animateStop();
+            matrix.on("0000000000000000");
+            matrix.on((max7219_number(value)));
+        } else {
+            matrix.animateStop();
+            matrix.animate(max7219_horse("left","0c1e3e7c3e1e0c00"),100);
+        }
+    });
+});
+```

@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>LED Matrix - Soil Moisture</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+</head>
+
+<body>
+<h1 id="demo">123</h1>
+<script>
+var soil, matrix, value;
+var demo = document.getElementById("demo");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 250;
+    soil = getSoil(board, 3);
+    matrix = getMax7219(board, 7, 8, 9);
+    soil.on(val => {
+        soil.detectedVal = val;
+        value = Math.round(soil.detectedVal);
+        demo.innerHTML = value;
+        if (a < 10) {
+            matrix.animateStop();
+            matrix.on("0000000000000000");
+            matrix.on((max7219_number(value)));
+        } else {
+            matrix.animateStop();
+            matrix.animate(max7219_horse("left","0c1e3e7c3e1e0c00"),100);
+        }
+    });
+});
+</script>
+</body>

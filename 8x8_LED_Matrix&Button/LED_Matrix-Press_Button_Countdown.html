@@ -21,7 +21,7 @@ var matrixStr = ["7e81817e", "8482ff80", "c6a1918e", "66819966", "1f10ff10",
     "4f898971", "7e898971", "07c1310f", "7689916e", "8e91917e"];
 var demo = document.getElementById("demo");
 
-boardReady({device: 'wa8w'}, function (board) {
+boardReady({device: 'wa8w'}, board => {
     board.systemReset();
     board.samplingInterval = 20;
     button = getButton(board, 12);

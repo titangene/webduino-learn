@@ -39,6 +39,8 @@
     - [利用 按鈕開關 執行倒數計時，並將時間顯示在 LED 點矩陣 上](#利用-按鈕開關-執行倒數計時並將時間顯示在-led-點矩陣-上)
 - [LED 點矩陣 (8 x 8 LED matrix) & 土壤濕度傳感器 (Soil Moisture Sensor)](#led-點矩陣-8-x-8-led-matrix--土壤濕度傳感器-soil-moisture-sensor)
     - [利用 土壤濕度傳感器 偵測土壤濕度，並將數值顯示在 LED 點矩陣 上](#利用-土壤濕度傳感器-偵測土壤濕度並將數值顯示在-led-點矩陣-上)
+- [水泵 (Water Pump) & 繼電器 (Relay, JQC-3FF-S-Z)](#水泵-water-pump--繼電器-relay-jqc-3ff-s-z)
+    - [利用 繼電器 操控 水泵](#利用-繼電器-操控-水泵)
 
 ---
 
@@ -1205,7 +1207,7 @@ boardReady({device: 'kzpV'}, board => {
 <a href="./image/Water_Pump-Relay_JQC-3FF-S-Z_3.jpg" target="_blank"><img src="./image/Water_Pump-Relay_JQC-3FF-S-Z_3.jpg" width="300"></a>
 <a href="./image/Water_Pump-Relay_JQC-3FF-S-Z_4.jpg" target="_blank"><img src="./image/Water_Pump-Relay_JQC-3FF-S-Z_4.jpg" width="300"></a>
 
-## [利用 土壤濕度傳感器 偵測土壤濕度，並將數值顯示在 LED 點矩陣 上](./Water_Pump&Relay_(JQC-3FF-S-Z)/Water_Pump_Relay-Control.html)
+## [利用 繼電器 操控 水泵](./Water_Pump&Relay_(JQC-3FF-S-Z)/Water_Pump_Relay-Control.html)
 
 ```javascript
 var relay;

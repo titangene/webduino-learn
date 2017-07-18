@@ -31,6 +31,7 @@ boardReady({device: 'kzpV'}, board => {
             matrix.on((max7219_number(value)));
         } else {
             matrix.animateStop();
+            // 愛心
             matrix.animate(max7219_horse("left","0c1e3e7c3e1e0c00"),100);
         }
     });

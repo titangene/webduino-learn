@@ -1090,7 +1090,7 @@ var timer = 20;
 var isStartTimer = false;
 // 0, 1, 2, 3, 4, 5, 6 ,7, 8, 9
 var matrixStr = ["7e81817e", "8482ff80", "c6a1918e", "66819966", "1f10ff10", 
-    "4f898971", "7e898971", "07c1310f", "7689916e", "8e91917e"];
+                 "4f898971", "7e898971", "07c1310f", "7689916e", "8e91917e"];
 var demo = document.getElementById("demo");
 
 boardReady({device: 'wa8w'}, function (board) {
@@ -1133,6 +1133,8 @@ Demo：
 
 # [LED 點矩陣 (8 x 8 LED matrix) & 土壤濕度傳感器 (Soil Moisture Sensor)](./8x8_LED_Matrix&Soil_Moisture_Sensor)
 
+[Webduino 官方教學範例 - 偵測土壤濕度並由 LED 點矩陣顯示](https://webduino.io/tutorials/tutorial-31-soil-max7219.html)
+
 ## 接線
 - LED 點矩陣 (8 x 8 LED matrix)
     - VCC：VCC
@@ -1172,8 +1174,49 @@ boardReady({device: 'kzpV'}, board => {
             matrix.on((max7219_number(value)));
         } else {
             matrix.animateStop();
+            // 愛心
             matrix.animate(max7219_horse("left","0c1e3e7c3e1e0c00"),100);
         }
     });
+});
+```
+
+
+---
+
+# [水泵 (Water Pump) & 繼電器 (Relay, JQC-3FF-S-Z)](./Water_Pump&Relay_(JQC-3FF-S-Z))
+
+[Webduino 官方教學範例 - 操控水泵](https://webduino.io/tutorials/tutorial-36-pump.html)
+
+## 接線
+- 水泵 (Water Pump)
+    - 5V (紅)：繼電器 COM
+    - GND (白)：GND
+- 繼電器 (Relay, JQC-3FF-S-Z)
+    - NO：VCC
+    - COM：水泵 5V (紅)
+    - VCC：3.3V
+    - GND：GND
+    - IN：11
+
+## 實際接線照片
+<a href="./image/Water_Pump-Relay_JQC-3FF-S-Z_1.jpg" target="_blank"><img src="./image/Water_Pump-Relay_JQC-3FF-S-Z_1.jpg" width="300"></a>
+<a href="./image/Water_Pump-Relay_JQC-3FF-S-Z_2.jpg" target="_blank"><img src="./image/Water_Pump-Relay_JQC-3FF-S-Z_2.jpg" width="300"></a>
+<a href="./image/Water_Pump-Relay_JQC-3FF-S-Z_3.jpg" target="_blank"><img src="./image/Water_Pump-Relay_JQC-3FF-S-Z_3.jpg" width="300"></a>
+<a href="./image/Water_Pump-Relay_JQC-3FF-S-Z_4.jpg" target="_blank"><img src="./image/Water_Pump-Relay_JQC-3FF-S-Z_4.jpg" width="300"></a>
+
+## [利用 土壤濕度傳感器 偵測土壤濕度，並將數值顯示在 LED 點矩陣 上](./Water_Pump&Relay_(JQC-3FF-S-Z)/Water_Pump_Relay-Control.html)
+
+```javascript
+var relay;
+var btnON = document.getElementById("btnON");
+var btnOFF = document.getElementById("btnOFF");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    relay = getRelay(board, 11);
+    btnON.addEventListener("click", () => relay.on());
+    btnOFF.addEventListener("click", () => relay.off());
 });
 ```

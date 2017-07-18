@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Water Pump & Relay - Control</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+<script src="https://blockly.webduino.io/webduino-blockly.js"></script>
+<script src="https://blockly.webduino.io/lib/runtime.min.js"></script>
+<style>
+button { font-size: 24px; }
+</style>
+</head>
+
+<body>
+<button id="btnON">ON</button>
+<button id="btnOFF">OFF</button>
+</body>
+<script>
+var relay;
+var btnON = document.getElementById("btnON");
+var btnOFF = document.getElementById("btnOFF");
+
+boardReady({device: 'kzpV'}, board => {
+    board.systemReset();
+    board.samplingInterval = 20;
+    relay = getRelay(board, 11);
+    btnON.addEventListener("click", () => relay.on());
+    btnOFF.addEventListener("click", () => relay.off());
+});
+</script>
+</body>

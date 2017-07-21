@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Timer - LED Matrix</title>
+<title>Timer - LED Matrix & Google Voice</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
 <script src="https://blockly.webduino.io/webduino-blockly.js"></script>
@@ -12,6 +12,7 @@
 
 <body>
 <h1 id="demo">123</h1>
+<h1 id="voice">123</h1>
 </body>
 <script>
 var led, button, ultrasonic, buzzer, matrix;
@@ -29,6 +30,8 @@ var music = [
 var matrixStr = ["7e81817e", "8482ff80", "c6a1918e", "66819966", "1f10ff10", 
                  "4f898971", "7e898971", "07c1310f", "7689916e", "8e91917e"];
 var timer1, timer10;
+var demo = document.getElementById("demo");
+var voice = document.getElementById("voice");
 
 boardReady({device: 'wa8w'}, board => {
     board.systemReset();
@@ -40,20 +43,60 @@ boardReady({device: 'wa8w'}, board => {
     matrix = getMax7219(board, 2, 3, 4);
     matrix.animateStop();
     matrix.on("0000000000000000");
+  
+    speechRecognition();
 
     ultrasonic.ping(cm => {
         if (!isStartTimer) {
             timer = ultrasonic.distance >= 30 ? 60 : ultrasonic.distance * 2;
-            document.getElementById("demo").innerHTML = timer;
+            demo.innerHTML = timer;
             matrix.on(timerFormat());
         }
     }, 500);
 
-    button.on("pressed", () => {
-        isStartTimer = true;
-        countSecond();
-    });
+    // 因為此用 Google 語音，按鈕開關就變假的 XD
+    button.on("pressed", () => { });
 });
+
+function speechRecognition(){
+    if (!("webkitSpeechRecognition" in window))
+        alert("本瀏覽器不支援語音辨識，請更換瀏覽器！(Chrome 25 版以上才支援語音辨識)");
+    else {
+        window._recognition = new webkitSpeechRecognition();
+        window._recognition.continuous = true;
+        window._recognition.interimResults = true;
+        window._recognition.lang = "cmn-Hant-TW";
+
+        window._recognition.onstart = () => {
+            window._recognition.status = true;
+            console.log("Start recognize...");
+        };
+
+        window._recognition.onend = () => {
+            console.log("Stop recognize");
+            if(window._recognition.status) window._recognition.start();
+        };
+
+        window._recognition.onresult = (event, result) => {
+            result = {};
+            result.resultLength = event.results.length - 1;
+            result.resultTranscript = event.results[result.resultLength][0].transcript;
+            if (event.results[result.resultLength].isFinal === false) {
+                console.log(result.resultTranscript);
+                voice.innerHTML = result.resultTranscript;
+                if(result.resultTranscript.indexOf("計時") !== -1) {
+                    isStartTimer = true;
+                    window._recognition.status = false;
+                    window._recognition.stop();
+                    countSecond();
+                }
+            } else if (event.results[result.resultLength].isFinal === true)
+                console.log("final");
+        };
+        window._recognition.start();
+    }
+}
+  
 
 function timerFormat() {
     timer10 = timer < 10 ? 0 : Math.floor(timer / 10);
@@ -63,7 +106,7 @@ function timerFormat() {
 
 function countSecond() {
     timer -= 1;
-    document.getElementById("demo").innerHTML = timer;
+    demo.innerHTML = timer;
     matrix.on(timerFormat());
     if (timer <= 0) {
         led.on();
@@ -72,6 +115,7 @@ function countSecond() {
         buzzer.play(buzzer_music(music).notes ,buzzer_music(music).tempos);
         setTimeout(() => {
             led.toggle();
+            speechRecognition();
             isStartTimer = false;
         }, 6000);
     } else

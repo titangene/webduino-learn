@@ -41,6 +41,8 @@
     - [利用 土壤濕度傳感器 偵測土壤濕度，並將數值顯示在 LED 點矩陣 上](#利用-土壤濕度傳感器-偵測土壤濕度並將數值顯示在-led-點矩陣-上)
 - [水泵 (Water Pump) & 繼電器 (Relay, JQC-3FF-S-Z)](#水泵-water-pump--繼電器-relay-jqc-3ff-s-z)
     - [利用 繼電器 操控 水泵](#利用-繼電器-操控-水泵)
+- [計時器 (8 x 8 LED matrix)](#計時器-8-x-8-led-matrix)
+- [計時器 (8 x 8 LED matrix, Google Voice)](#計時器-8-x-8-led-matrix-google-voice)
 
 ---
 
@@ -1037,7 +1039,7 @@ Demo：
 ## 接線
 - VCC：VCC
 - GND：GND
-- DIN (D in ( Dout ))：2
+- DIN：2
 - CS (晶片選擇)：3
 - CLK (時脈)：4
 
@@ -1071,7 +1073,7 @@ Demo：
 - LED 點矩陣 (8 x 8 LED matrix)
     - VCC：VCC
     - GND：GND
-    - DIN (D in ( Dout ))：2
+    - DIN：2
     - CS (晶片選擇)：3
     - CLK (時脈)：4
 - 按鈕開關 (Button)
@@ -1141,7 +1143,7 @@ Demo：
 - LED 點矩陣 (8 x 8 LED matrix)
     - VCC：VCC
     - GND：GND
-    - DIN (D in ( Dout ))：7
+    - DIN：7
     - CS (晶片選擇)：8
     - CLK (時脈)：9
 - 土壤濕度傳感器 (Soil Moisture Sensor)
@@ -1226,10 +1228,9 @@ boardReady({device: 'kzpV'}, board => {
 ---
 
 # [計時器 (8 x 8 LED matrix)](./Other/Timer-LED_Matrix.html)
+## [Youtube](https://youtu.be/A5ChQowWSFk)
 
-影片介紹：[Youtube](https://youtu.be/A5ChQowWSFk)
-
-使用了五種感測器，超音波、按鈕、LED 燈、嗡鳴器、LED 矩陣
+[![計時器 (8 x 8 LED matrix)](https://img.youtube.com/vi/A5ChQowWSFk/0.jpg)](https://www.youtube.com/watch?v=A5ChQowWSFk)
 
 將超音波當下感測物品的距離數值當作計時器的開始倒數時間，最高 60 秒，同時還能即時在 LED 矩陣上看到時間。當按下按鈕後會依當下感測物體的距離數值開始倒數計時，當歸 0 時，你會看到 LED 矩陣顯示出笑臉 XD，而且 LED 燈會亮，並且會聽到嗡鳴器發出「獻給愛麗絲」的曲子，當曲子停止後，燈也會熄滅，LED 矩陣會改變成當下感測物體的距離數值
 
@@ -1237,12 +1238,6 @@ boardReady({device: 'kzpV'}, board => {
 - LED
     - 短腳：GND
     - 長腳：13
-- LED 點矩陣 (8 x 8 LED matrix)
-    - VCC：VCC
-    - GND：GND
-    - DIN (D in ( Dout ))：2
-    - CS (晶片選擇)：3
-    - CLK (時脈)：4
 - 按鈕開關 (Button)
     - 3.3V
     - 12
@@ -1255,9 +1250,45 @@ boardReady({device: 'kzpV'}, board => {
     - Trig：9
     - Echo：8
     - GND：GND
+- LED 點矩陣 (8 x 8 LED matrix)
+    - VCC：VCC
+    - GND：GND
+    - DIN：2
+    - CS (晶片選擇)：3
+    - CLK (時脈)：4
 
 ## 實際接線照片
-<a href="./image/Timer-LED_Matrix.png" target="_blank"><img src="./image/Timer-LED_Matrix.png"></a>
+<a href="./image/Timer-LED_Matrix.png" target="_blank"><img src="./image/Timer-LED_Matrix.png" width="700"></a>
 
 Source code：[計時器 (8 x 8 LED matrix)](./Other/Timer-LED_Matrix.html)
 
+---
+
+# [計時器 (8 x 8 LED matrix, Google Voice)](./Other/Timer-LED_Matrix&Google_Voice.html)
+## 接線
+- LED
+    - 短腳：GND
+    - 長腳：13
+- 按鈕開關 (Button)
+    - 3.3V
+    - 12
+    - 按鈕開關 → 電阻 → GND
+- 蜂鳴器 (Buzzer)
+    - 正極：7
+    - 負極：GND
+- 超音波傳感器 (Ultrasonic Sensor, HC-SRO4+)
+    - VCC：3.3V
+    - Trig：9
+    - Echo：8
+    - GND：GND
+- LED 點矩陣 (8 x 8 LED matrix)
+    - VCC：VCC
+    - GND：GND
+    - DIN：2
+    - CS (晶片選擇)：3
+    - CLK (時脈)：4
+
+## 實際接線照片
+<a href="./image/Timer-LED_Matrix.png" target="_blank"><img src="./image/Timer-LED_Matrix.png" width="700"></a>
+
+Source code：[計時器 (8 x 8 LED matrix, Google Voice)](./Other/Timer-LED_Matrix&Google_Voice.html)

@@ -1265,6 +1265,9 @@ Source code：[計時器 (8 x 8 LED matrix)](./Other/Timer-LED_Matrix.html)
 ---
 
 # [計時器 (8 x 8 LED matrix, Google Voice)](./Other/Timer-LED_Matrix&Google_Voice.html)
+
+承接[上面的範例](#計時器-8-x-8-led-matrix)，加入 Google 語音：說出「計時」即可開始倒數計時
+
 ## 接線
 - LED
     - 短腳：GND

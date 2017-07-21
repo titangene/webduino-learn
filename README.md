@@ -1222,3 +1222,42 @@ boardReady({device: 'kzpV'}, board => {
     btnOFF.addEventListener("click", () => relay.off());
 });
 ```
+
+---
+
+# [計時器 (8 x 8 LED matrix)](./Other/Timer-LED_Matrix.html)
+
+影片介紹：[Youtube](https://youtu.be/A5ChQowWSFk)
+
+使用了五種感測器，超音波、按鈕、LED 燈、嗡鳴器、LED 矩陣
+
+將超音波當下感測物品的距離數值當作計時器的開始倒數時間，最高 60 秒，同時還能即時在 LED 矩陣上看到時間。當按下按鈕後會依當下感測物體的距離數值開始倒數計時，當歸 0 時，你會看到 LED 矩陣顯示出笑臉 XD，而且 LED 燈會亮，並且會聽到嗡鳴器發出「獻給愛麗絲」的曲子，當曲子停止後，燈也會熄滅，LED 矩陣會改變成當下感測物體的距離數值
+
+## 接線
+- LED
+    - 短腳：GND
+    - 長腳：13
+- LED 點矩陣 (8 x 8 LED matrix)
+    - VCC：VCC
+    - GND：GND
+    - DIN (D in ( Dout ))：2
+    - CS (晶片選擇)：3
+    - CLK (時脈)：4
+- 按鈕開關 (Button)
+    - 3.3V
+    - 12
+    - 按鈕開關 → 電阻 → GND
+- 蜂鳴器 (Buzzer)
+    - 正極：7
+    - 負極：GND
+- 超音波傳感器 (Ultrasonic Sensor, HC-SRO4+)
+    - VCC：3.3V
+    - Trig：9
+    - Echo：8
+    - GND：GND
+
+## 實際接線照片
+<a href="./image/Timer-LED_Matrix.png" target="_blank"><img src="./image/Timer-LED_Matrix.png"></a>
+
+Source code：[計時器 (8 x 8 LED matrix)](./Other/Timer-LED_Matrix.html)
+
